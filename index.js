@@ -3,7 +3,9 @@
 const program = require('commander');
 const path = require('path');
 const fs = require('fs');
-const compiler = require('vue-template-compiler');
+const fileDisplays = require('./src/file-display');
+const vueTemplateCompiler = require('./src/vue-template-compiler');
+const astParse = require('./src/ast-parse');
 
 program
   .version('0.0.1')
@@ -17,7 +19,6 @@ const optionsDefault = {
   path: 'src/compontents',
   compontent: false,
 };
-const vueFiles = [];
 
 if (program.config) {
   configPath = path.resolve(__dirname, program.config);
@@ -37,35 +38,14 @@ if (exists) {
   options = optionsDefault;
 }
 
-fileDisplay(path.resolve(__dirname, options.path));
+// 遍历查找所有vue文件夹
+const vueFiles = fileDisplays(path.resolve(__dirname, options.path));
 
 vueFiles.forEach((filePath) => {
+  // 解析vue文件
   const cs = vueTemplateCompiler(filePath);
+  // console.log();
+
+  // 解析ast，查到注释
+  astParse(cs);
 });
-
-// 遍历查找所有vue文件夹
-function fileDisplay(filePath) {
-  const files = fs.readdirSync(filePath);
-  files.forEach((filename) => {
-    const filedir = path.join(filePath, filename);
-    const stats = fs.statSync(filedir);
-    const isFile = stats.isFile(); // 是文件
-    const isDir = stats.isDirectory(); // 是文件夹
-    if (isFile && path.extname(filedir) === '.vue') {
-      vueFiles.push(filedir);
-    }
-    if (isDir) {
-      fileDisplay(filedir); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
-    }
-  });
-}
-
-// 解析vue文件
-function vueTemplateCompiler(filePath) {
-  const file = fs.readFileSync(filePath, 'utf-8');
-  const parsedComponent = compiler.parseComponent(file);
-  const scriptContent = parsedComponent.script ? parsedComponent.script.content : '';
-  return scriptContent;
-}
-
-// 解析ast，查到注释
