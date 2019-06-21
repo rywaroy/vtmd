@@ -36,7 +36,6 @@ function filterComment(comments) {
       commentArray.push(filterCommentLine(comment.value));
     }
   });
-  console.log(commentArray);
   return commentArray;
 }
 
