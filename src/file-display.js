@@ -1,9 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = function fileDisplay(filePaths) {
+module.exports = function fileDisplay(filePaths, ignorePath) {
   const vuefiles = [];
   function fileDisplayDeep(filePath) {
+    if (ignorePath && filePath === ignorePath) {
+      return;
+    }
     const files = fs.readdirSync(filePath);
     files.forEach((filename) => {
       const filedir = path.join(filePath, filename);
@@ -19,6 +22,6 @@ module.exports = function fileDisplay(filePaths) {
     });
   }
   fileDisplayDeep(filePaths);
-
+  console.log(vuefiles);
   return vuefiles;
 };

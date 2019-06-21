@@ -18,12 +18,13 @@ let configPath;
 const optionsDefault = {
   path: 'src/compontents',
   compontent: false,
+  ignore: null,
 };
 
 if (program.config) {
-  configPath = path.resolve(__dirname, program.config);
+  configPath = resolve(program.config);
 } else {
-  configPath = path.resolve(__dirname, './vtmd.config.js');
+  configPath = resolve('./vtmd.config.js');
 }
 
 const exists = fs.existsSync(configPath);
@@ -39,12 +40,20 @@ if (exists) {
 }
 
 // 遍历查找所有vue文件夹
-const vueFiles = fileDisplays(path.resolve(__dirname, options.path));
+const vueFiles = fileDisplays(resolve(options.path), resolve(options.ignore));
 
 vueFiles.forEach((filePath) => {
   // 解析vue文件
   const cs = vueTemplateCompiler(filePath);
 
-  // 解析ast，查到注释
+  // 解析ast，获取注释
   astParse(cs);
 });
+
+
+function resolve(p) {
+  if (!p) {
+    return p;
+  }
+  return path.join(__dirname, p);
+}
