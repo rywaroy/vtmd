@@ -44,7 +44,6 @@ const vueFiles = fileDisplays(path.resolve(__dirname, options.path));
 vueFiles.forEach((filePath) => {
   // 解析vue文件
   const cs = vueTemplateCompiler(filePath);
-  // console.log();
 
   // 解析ast，查到注释
   astParse(cs);
