@@ -34,4 +34,14 @@ module.exports = {
     cn: '图片',
     simple: true,
   },
+  '@title': {
+    name: 'title',
+    cn: '标题',
+    simple: true,
+  },
+  '@txt': {
+    name: 'txt',
+    cn: '文本',
+    simple: true,
+  },
 };
