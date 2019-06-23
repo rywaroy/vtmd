@@ -39,6 +39,10 @@ if (exists) {
   options = optionsDefault;
 }
 
+if (typeof options.ignore === 'string') {
+  options.ignore = [options.ignore];
+}
+
 // 遍历查找所有vue文件夹
 const vueFiles = fileDisplays(resolve(options.path), resolve(options.ignore));
 
@@ -54,6 +58,9 @@ vueFiles.forEach((filePath) => {
 function resolve(p) {
   if (!p) {
     return p;
+  }
+  if (Array.isArray(p)) {
+    return p.map(item => path.join(__dirname, item));
   }
   return path.join(__dirname, p);
 }
