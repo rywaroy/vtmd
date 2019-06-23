@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = function fileDisplay(filePaths, ignorePath) {
+module.exports = function fileDisplay(filePaths, ignorePaths) {
   const vuefiles = [];
   function fileDisplayDeep(filePath) {
-    if (ignorePath && filePath === ignorePath) {
+    if (ignorePaths && ignorePaths.includes(filePath)) {
       return;
     }
     const files = fs.readdirSync(filePath);
