@@ -13,6 +13,22 @@ module.exports = function astParse(script) {
       if (path.node.leadingComments) {
         md.main = filterComment(path.node.leadingComments);
       }
+
+      if (path.node.declaration.properties.length > 0) {
+        path.node.declaration.properties.forEach(item => {
+
+          // 获取vue组件name
+          if (item.key.name === 'name') {
+            md.name = item.value.value;
+          }
+
+          // 获取vue组件props
+          if (item.key.name === 'props') {
+            md.props = getProps(item.value);
+            console.log(md.props);
+          }
+        });
+      }
     },
   });
   return md;
@@ -133,4 +149,67 @@ function filterRules(rule, line) {
  */
 function trimStr(str) {
   return str.replace(/(^\s*)|(\s*$)/g, '');
+}
+
+/**
+ * 获取props内容
+ * @param {Object} obj
+ * @returns {Object}
+ */
+function getProps(obj) {
+  // 数组形式props
+  if (obj.type === 'ArrayExpression') {
+    return obj.elements.map(item => ({ name: item.value }));
+  }
+
+  // 对象形式props
+  if (obj.type === 'ObjectExpression') {
+    const props = [];
+    for (let i = 0; i < obj.properties.length; i++) {
+      const prop = {};
+      const propertie = obj.properties[i];
+      prop.name = propertie.key.name;
+      if (propertie.leadingComments) {
+        prop.value = filterComment(propertie.leadingComments);
+      }
+
+      // key: String形式
+      if (propertie.value.type === 'Identifier') {
+        prop.type = propertie.value.name;
+      }
+
+      // key: [] 数组形式
+      if (propertie.value.type === 'ArrayExpression') {
+        prop.type = propertie.value.elements.map(e => e.name).join(' | ');
+      }
+
+      // key: {} 对象形式
+      if (propertie.value.type === 'ObjectExpression') {
+        propertie.value.properties.forEach(item => {
+          if (item.key.name === 'type') {
+            if (item.value.type === 'ArrayExpression') {
+              prop.type = item.value.elements.map(e => e.name).join(' | ');
+            } else {
+              prop.type = item.value.name;
+            }
+          }
+
+          if (item.key.name === 'default') {
+            // 非函数
+            if (item.value.type !== 'ArrowFunctionExpression' && item.value.type !== 'FunctionExpression') {
+              prop.default = item.value.value;
+            } else {
+              prop.default = 'Function Return';
+            }
+          }
+
+          if (item.key.name === 'required') {
+            prop.required = item.value.value;
+          }
+        });
+      }
+      props.push(prop);
+    }
+    return props;
+  }
 }

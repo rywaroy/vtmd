@@ -6,5 +6,7 @@ module.exports = {
         'no-use-before-define': 0,
         'arrow-parens': 0,
         'prefer-destructuring': 0,
+        'no-plusplus': 0,
+        'consistent-return': 0,
     }
 };
