@@ -8,5 +8,6 @@ module.exports = {
         'prefer-destructuring': 0,
         'no-plusplus': 0,
         'consistent-return': 0,
+        'no-lonely-if': 0,
     }
 };

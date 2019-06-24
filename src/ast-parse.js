@@ -25,7 +25,10 @@ module.exports = function astParse(script) {
           // 获取vue组件props
           if (item.key.name === 'props') {
             md.props = getProps(item.value);
-            console.log(md.props);
+          }
+
+          if (item.key.name === 'data') {
+            md.data = getData(item.body.body[0].argument.properties);
           }
         });
       }
@@ -212,4 +215,29 @@ function getProps(obj) {
     }
     return props;
   }
+}
+
+/**
+ * 获取data内容
+ * @param {Array} props
+ */
+function getData(props) {
+  const arr = [];
+  for (let i = 0; i < props.length; i++) {
+    const obj = {
+      name: props[i].key.name,
+    };
+    // 最后一项取trailingComments内容
+    if (i === props.length - 1) {
+      if (props[i].trailingComments) {
+        obj.value = JSON.stringify(filterComment(props[i].trailingComments));
+      }
+    } else { // 不是最后一项取下一项的leadingComments内容
+      if (props[i + 1].leadingComments) {
+        obj.value = JSON.stringify(filterComment(props[i + 1].leadingComments));
+      }
+    }
+    arr.push(obj);
+  }
+  return arr;
 }
