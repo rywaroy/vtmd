@@ -35,6 +35,16 @@ module.exports = function astParse(script) {
           if (item.key.name === 'methods') {
             md.methods = getMethods(item.value.properties);
           }
+
+          // 获取vue组件的computed
+          if (item.key.name === 'computed') {
+            md.computed = getMethods(item.value.properties);
+          }
+
+          // 获取vue组件的filters
+          if (item.key.name === 'filters') {
+            md.filters = getMethods(item.value.properties);
+          }
         });
       }
     },
