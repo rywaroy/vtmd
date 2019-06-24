@@ -16,7 +16,6 @@ module.exports = function astParse(script) {
 
       if (path.node.declaration.properties.length > 0) {
         path.node.declaration.properties.forEach(item => {
-
           // 获取vue组件name
           if (item.key.name === 'name') {
             md.name = item.value.value;
@@ -27,8 +26,14 @@ module.exports = function astParse(script) {
             md.props = getProps(item.value);
           }
 
+          // 获取vue组件的data
           if (item.key.name === 'data') {
             md.data = getData(item.body.body[0].argument.properties);
+          }
+
+          // 获取vue组件的methods
+          if (item.key.name === 'methods') {
+            md.methods = getMethods(item.value.properties);
           }
         });
       }
@@ -220,6 +225,7 @@ function getProps(obj) {
 /**
  * 获取data内容
  * @param {Array} props
+ * @returns {Array}
  */
 function getData(props) {
   const arr = [];
@@ -230,14 +236,32 @@ function getData(props) {
     // 最后一项取trailingComments内容
     if (i === props.length - 1) {
       if (props[i].trailingComments) {
-        obj.value = JSON.stringify(filterComment(props[i].trailingComments));
+        obj.value = filterComment(props[i].trailingComments);
       }
     } else { // 不是最后一项取下一项的leadingComments内容
       if (props[i + 1].leadingComments) {
-        obj.value = JSON.stringify(filterComment(props[i + 1].leadingComments));
+        obj.value = filterComment(props[i + 1].leadingComments);
       }
     }
     arr.push(obj);
   }
+  return arr;
+}
+
+/**
+ * 获取methods内容
+ * @param {Array} props
+ * @returns {Array}
+ */
+function getMethods(props) {
+  const arr = [];
+  props.forEach(item => {
+    const obj = {};
+    obj.name = item.key.name;
+    if (item.leadingComments) {
+      obj.value = filterComment(item.leadingComments);
+    }
+    arr.push(obj);
+  });
   return arr;
 }
