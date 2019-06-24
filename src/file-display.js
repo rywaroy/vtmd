@@ -22,6 +22,5 @@ module.exports = function fileDisplay(filePaths, ignorePaths) {
     });
   }
   fileDisplayDeep(filePaths);
-  console.log(vuefiles);
   return vuefiles;
 };

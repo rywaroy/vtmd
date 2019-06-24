@@ -16,7 +16,7 @@ program.parse(process.argv);
 
 let configPath;
 const optionsDefault = {
-  path: 'src/compontents',
+  path: 'src',
   compontent: false,
   ignore: null,
 };
