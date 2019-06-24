@@ -109,7 +109,7 @@ function filterCommentLine(line) {
         if (rules[key].simple) {
           obj = {
             name: key,
-            value: line.replace(new RegExp(`${key}\\s+`), ''),
+            value: line.replace(new RegExp(`\\s*${key}\\s+`), ''),
           };
         } else {
           // 解析复杂规则如 @param @returns
