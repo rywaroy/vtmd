@@ -14,7 +14,10 @@ module.exports = function fileDisplay(filePaths, ignorePaths) {
       const isFile = stats.isFile(); // 是文件
       const isDir = stats.isDirectory(); // 是文件夹
       if (isFile && path.extname(filedir) === '.vue') {
-        vuefiles.push(filedir);
+        vuefiles.push({
+          filedir,
+          filename,
+        });
       }
       if (isDir) {
         fileDisplayDeep(filedir); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
