@@ -105,6 +105,7 @@ function filterCommentLine(line) {
           obj = {
             name: key,
             value: line.replace(new RegExp(`\\s*${key}\\s+`), ''),
+            ...rules[key],
           };
         } else {
           // 解析复杂规则如 @param @returns
@@ -114,15 +115,17 @@ function filterCommentLine(line) {
     });
     if (!flag) { // 未匹配规则，则返回字符串
       return {
-        name: '@txt',
+        name: 'txt',
         value: line,
+        cn: '文本',
       };
     }
     return obj;
   }
   return {
-    name: '@txt',
+    name: 'txt',
     value: line,
+    cn: '文本',
   };
 }
 
@@ -137,6 +140,7 @@ function filterRules(rule, line) {
     name: rule,
     type: type ? type[1] : '', // // 正则配置，获取{}中的参数类型
     value: '',
+    ...rules[rule],
   };
   if (rule === '@param') {
     // 例子： @params {String | Object} type - 类型
