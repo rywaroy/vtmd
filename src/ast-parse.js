@@ -3,7 +3,7 @@ const traverse = require('@babel/traverse').default;
 const rules = require('./rules');
 
 module.exports = function astParse(script) {
-  const md = {};
+  const notes = {};
   const ast = babelParser.parse(script, {
     sourceType: 'module',
   });
@@ -11,45 +11,40 @@ module.exports = function astParse(script) {
     ExportDefaultDeclaration(path) {
       // 解析文档介绍注释
       if (path.node.leadingComments) {
-        md.main = filterComment(path.node.leadingComments);
+        notes.main = filterComment(path.node.leadingComments);
       }
 
       if (path.node.declaration.properties.length > 0) {
         path.node.declaration.properties.forEach(item => {
           // 获取vue组件name
           if (item.key.name === 'name') {
-            md.name = item.value.value;
+            notes.name = item.value.value;
           }
 
           // 获取vue组件props
           if (item.key.name === 'props') {
-            md.props = getProps(item.value);
+            notes.props = getProps(item.value);
           }
 
           // 获取vue组件的data
           if (item.key.name === 'data') {
-            md.data = getData(item.body.body[0].argument.properties);
+            notes.data = getData(item.body.body[0].argument.properties);
           }
 
           // 获取vue组件的methods
           if (item.key.name === 'methods') {
-            md.methods = getMethods(item.value.properties);
+            notes.methods = getMethods(item.value.properties);
           }
 
-          // 获取vue组件的computed
-          if (item.key.name === 'computed') {
-            md.computed = getMethods(item.value.properties);
-          }
-
-          // 获取vue组件的filters
-          if (item.key.name === 'filters') {
-            md.filters = getMethods(item.value.properties);
+          // 获取vue组件的computed、filters、watch
+          if (item.key.name === 'computed' || item.key.name === 'filters' || item.key.name === 'watch') {
+            notes[item.key.name] = getMethods(item.value.properties);
           }
         });
       }
     },
   });
-  return md;
+  return notes;
 };
 
 /**
