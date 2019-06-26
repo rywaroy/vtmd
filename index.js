@@ -20,7 +20,7 @@ const optionsDefault = {
   entry: 'src',
   compontent: false,
   ignore: null,
-  output: './',
+  output: 'docs',
 };
 
 if (program.config) {
