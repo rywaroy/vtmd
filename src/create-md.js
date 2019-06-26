@@ -33,7 +33,7 @@ function createMd(notes, name) {
   if (notes.props) {
     md += '## props \n\n';
     notes.props.forEach(item => {
-      md += `**${item.name}** \n\n`;
+      md += `#### ${item.name} \n\n`;
       if (item.type) {
         md += `类型： ${item.type} \n\n`;
       }
@@ -41,7 +41,7 @@ function createMd(notes, name) {
         md += `required： ${item.required}\n\n`;
       }
       if (item.value) {
-        md += `备注： ${createNote(getNote(item.value))}`;
+        md += `备注： ${createNote(getNote(item.value))} \n\n`;
       }
     });
   }
@@ -49,9 +49,9 @@ function createMd(notes, name) {
   if (notes.data) {
     md += '## data \n\n';
     notes.data.forEach(item => {
-      md += `**${item.name}**   `;
+      md += `#### ${item.name} \n\n`;
       if (item.value) {
-        md += `→ ${createNote(getNote(item.value))}`;
+        md += `备注： ${createNote(getNote(item.value))}`;
       }
       md += ' \n\n';
     });
@@ -153,7 +153,7 @@ function createNote(note) {
     md += `${note.txt.value}\n\n`;
   }
   if (note.param) {
-    md += '#### 参数 \n\n';
+    md += '**参数** \n\n';
     md += `| 参数 | 类型 | 说明
 | ---- | ---- | ---- | \n`;
     note.param.forEach(item => {
@@ -162,7 +162,7 @@ function createNote(note) {
     md += '\n';
   }
   if (note.returns) {
-    md += '#### 返回值 \n\n';
+    md += '**返回值** \n\n';
     md += `| 类型 | 说明
 | ---- | ---- | \n`;
     note.returns.forEach(item => {
