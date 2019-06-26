@@ -50,6 +50,9 @@ function createMd(notes, name) {
     md += '## data \n\n';
     notes.data.forEach(item => {
       md += `#### ${item.name} \n\n`;
+      if (item.type) {
+        md += `类型： ${item.type} \n\n`;
+      }
       if (item.value) {
         md += `备注： ${createNote(getNote(item.value))}`;
       }
@@ -147,7 +150,7 @@ function createNote(note) {
     md += `${note.url.cn}: ${note.url.value}\n\n`;
   }
   if (note.image) {
-    md += `${note.image.cn}: ${note.image.value}\n\n`;
+    md += `${note.image.cn}: ![](${note.image.value})\n\n`;
   }
   if (note.txt) {
     md += `${note.txt.value}\n\n`;
