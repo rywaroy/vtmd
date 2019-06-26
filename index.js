@@ -8,6 +8,8 @@ const vueTemplateCompiler = require('./src/vue-template-compiler');
 const astParse = require('./src/ast-parse');
 const create = require('./src/create-md');
 
+const processPath = process.cwd();
+
 program
   .version('0.0.1')
   .option('--config <path>', 'config');
@@ -64,7 +66,7 @@ function resolve(p) {
     return p;
   }
   if (Array.isArray(p)) {
-    return p.map(item => path.join(__dirname, item));
+    return p.map(item => path.join(processPath, item));
   }
-  return path.join(__dirname, p);
+  return path.join(processPath, p);
 }

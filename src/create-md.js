@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+
 module.exports = function create(notes, filename, options) {
   let md;
   const name = filename.substring(0, filename.lastIndexOf('.'));
@@ -8,7 +9,7 @@ module.exports = function create(notes, filename, options) {
     md = createMd(notes, name);
   }
 
-  fs.writeFile(`${path.join(__dirname, '../', options.output)}/${name}.md`, md, (err) => {
+  fs.writeFile(`${path.join(process.cwd(), options.output)}/${name}.md`, md, (err) => {
     if (err) throw err;
     console.log(`${filename}写入成功`);
   });
