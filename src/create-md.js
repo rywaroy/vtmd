@@ -74,6 +74,36 @@ function createMd(notes, name) {
       }
     });
   }
+
+  if (notes.computed) {
+    md += '## computed \n\n';
+    notes.computed.forEach(item => {
+      md += `### ${item.name}\n\n`;
+      if (item.value) {
+        md += `${createNote(getNote(item.value))} \n\n`;
+      }
+    });
+  }
+
+  if (notes.filters) {
+    md += '## filters \n\n';
+    notes.filters.forEach(item => {
+      md += `### ${item.name}\n\n`;
+      if (item.value) {
+        md += `${createNote(getNote(item.value))} \n\n`;
+      }
+    });
+  }
+
+  if (notes.watch) {
+    md += '## watch \n\n';
+    notes.watch.forEach(item => {
+      md += `### ${item.name}\n\n`;
+      if (item.value) {
+        md += `${createNote(getNote(item.value))} \n\n`;
+      }
+    });
+  }
   return md;
 }
 
