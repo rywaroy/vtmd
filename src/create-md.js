@@ -195,7 +195,6 @@ function createComponentMd(notes, name) {
     notes.props.forEach(item => {
       md += `<vtmd-props
   name="${item.name}" \n`;
-      // md += `<vtmd-head3 content="${item.name}"/> \n\n`;
       if (item.type) {
         md += `  type="${item.type}" \n`;
       }
@@ -208,6 +207,22 @@ function createComponentMd(notes, name) {
       }
     });
   }
+
+  if (notes.data) {
+    md += '<vtmd-head2 content="data"/> \n\n';
+    notes.data.forEach(item => {
+      md += `<vtmd-props
+  name="${item.name}" \n`;
+      if (item.type) {
+        md += `  type="${item.type}" \n`;
+      }
+      md += '/> \n\n';
+      if (item.value) {
+        md += `${createComponentNote(getNote(item.value))} \n\n`;
+      }
+    });
+  }
+
   return md;
 }
 
