@@ -223,6 +223,28 @@ function createComponentMd(notes, name) {
     });
   }
 
+  if (notes.methods) {
+    md += '<vtmd-head2 content="methods"/> \n\n';
+    notes.methods.forEach(item => {
+      // md += `### ${item.name}`;
+      md += `<vtmd-method-name
+  name="${item.name}" \n`;
+      if (item.value) {
+        const note = getNote(item.value);
+        const { param, returns } = note;
+        if (param) {
+          md += `  params="${param.map(p => p.param).join(', ')}"\n`;
+        }
+        if (returns) {
+          md += `  returns="${returns.map(r => `${r.type} `)}" \n`;
+        }
+        md += '/> \n\n';
+        md += `${createComponentNote(note)} \n\n`;
+      } else {
+        md += '/> \n\n';
+      }
+    });
+  }
   return md;
 }
 
