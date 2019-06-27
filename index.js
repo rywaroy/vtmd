@@ -28,7 +28,7 @@ const optionsDefault = {
 if (program.config) {
   configPath = resolve(program.config);
 } else {
-  configPath = resolve('./vtmd.config.js');
+  configPath = resolve('vtmd.config.js');
 }
 
 const exists = fs.existsSync(configPath);

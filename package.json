@@ -1,10 +1,14 @@
 {
   "name": "vtmd",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "vue 转 md",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "bin": {
+    "vtmd": "index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +25,8 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
-    "jsdoc": "^3.6.2"
+    "jsdoc": "^3.6.2",
+    "webpack-dev-middleware": "^3.7.0"
   },
   "dependencies": {
     "@babel/parser": "^7.4.5",
