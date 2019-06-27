@@ -224,27 +224,50 @@ function createComponentMd(notes, name) {
   }
 
   if (notes.methods) {
-    md += '<vtmd-head2 content="methods"/> \n\n';
-    notes.methods.forEach(item => {
-      // md += `### ${item.name}`;
-      md += `<vtmd-method-name
-  name="${item.name}" \n`;
-      if (item.value) {
-        const note = getNote(item.value);
-        const { param, returns } = note;
-        if (param) {
-          md += `  params="${param.map(p => p.param).join(', ')}"\n`;
-        }
-        if (returns) {
-          md += `  returns="${returns.map(r => `${r.type} `)}" \n`;
-        }
-        md += '/> \n\n';
-        md += `${createComponentNote(note)} \n\n`;
-      } else {
-        md += '/> \n\n';
-      }
-    });
+    md += createComponentMethod('methods', notes.methods);
   }
+
+  if (notes.computed) {
+    md += createComponentMethod('computed', notes.computed);
+  }
+
+  if (notes.filters) {
+    md += createComponentMethod('filters', notes.filters);
+  }
+
+  if (notes.watch) {
+    md += createComponentMethod('watch', notes.watch);
+  }
+  return md;
+}
+
+/**
+ * 创建组件方法名
+ * @param {String} name - 方法名
+ * @param {Arrya} notes
+ * @returns {String}
+ */
+function createComponentMethod(name, notes) {
+  let md = `<vtmd-head2 content="${name}"/> \n\n`;
+  notes.forEach(item => {
+    // md += `### ${item.name}`;
+    md += `<vtmd-method-name
+name="${item.name}" \n`;
+    if (item.value) {
+      const note = getNote(item.value);
+      const { param, returns } = note;
+      if (param) {
+        md += `  params="${param.map(p => p.param).join(', ')}"\n`;
+      }
+      if (returns) {
+        md += `  returns="${returns.map(r => `${r.type} `)}" \n`;
+      }
+      md += '/> \n\n';
+      md += `${createComponentNote(note)} \n\n`;
+    } else {
+      md += '/> \n\n';
+    }
+  });
   return md;
 }
 
