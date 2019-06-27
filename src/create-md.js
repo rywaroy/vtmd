@@ -63,53 +63,46 @@ function createMd(notes, name) {
   }
 
   if (notes.methods) {
-    md += '## methods \n\n';
-    notes.methods.forEach(item => {
-      md += `### ${item.name}`;
-      if (item.value) {
-        const note = getNote(item.value);
-        const { param, returns } = note;
-        if (param) {
-          md += `  (${param.map(p => p.param).join(', ')})`;
-        }
-        if (returns) {
-          md += `  → ${returns.map(r => `{${r.type}} `)}`;
-        }
-        md += '\n\n';
-        md += `${createNote(note)} \n\n`;
-      }
-    });
+    md += createMethod('methods', notes.methods);
   }
 
   if (notes.computed) {
-    md += '## computed \n\n';
-    notes.computed.forEach(item => {
-      md += `### ${item.name}\n\n`;
-      if (item.value) {
-        md += `${createNote(getNote(item.value))} \n\n`;
-      }
-    });
+    md += createMethod('computed', notes.computed);
   }
 
   if (notes.filters) {
-    md += '## filters \n\n';
-    notes.filters.forEach(item => {
-      md += `### ${item.name}\n\n`;
-      if (item.value) {
-        md += `${createNote(getNote(item.value))} \n\n`;
-      }
-    });
+    md += createMethod('filters', notes.filters);
   }
 
   if (notes.watch) {
-    md += '## watch \n\n';
-    notes.watch.forEach(item => {
-      md += `### ${item.name}\n\n`;
-      if (item.value) {
-        md += `${createNote(getNote(item.value))} \n\n`;
-      }
-    });
+    md += createMethod('watch', notes.watch);
   }
+  return md;
+}
+
+/**
+ * 创建方法名
+ * @param {String} name - 方法名
+ * @param {Arrya} notes
+ * @returns {String}
+ */
+function createMethod(name, notes) {
+  let md = `## ${name} \n\n`;
+  notes.forEach(item => {
+    md += `### ${item.name}`;
+    if (item.value) {
+      const note = getNote(item.value);
+      const { param, returns } = note;
+      if (param) {
+        md += `  (${param.map(p => p.param).join(', ')})`;
+      }
+      if (returns) {
+        md += `  → ${returns.map(r => `{${r.type}} `)}`;
+      }
+      md += '\n\n';
+      md += `${createNote(note)} \n\n`;
+    }
+  });
   return md;
 }
 
