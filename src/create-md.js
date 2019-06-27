@@ -7,6 +7,8 @@ module.exports = function create(notes, filename, options) {
   const name = filename.substring(0, filename.lastIndexOf('.'));
   if (!options.compontent) {
     md = createMd(notes, name);
+  } else {
+    md = createComponentMd(notes, name);
   }
 
   fs.writeFile(`${path.join(process.cwd(), options.output, `${name}.md`)}`, md, (err) => {
@@ -134,6 +136,7 @@ function getNote(note) {
 /**
  * 创建注释字符串
  * @param {Object} note
+ * @returns {String}
  */
 function createNote(note) {
   let md = '';
@@ -155,6 +158,93 @@ function createNote(note) {
   if (note.txt) {
     md += `${note.txt.value}\n\n`;
   }
+  if (note.param) {
+    md += '**参数** \n\n';
+    md += `| 参数 | 类型 | 说明
+| ---- | ---- | ---- | \n`;
+    note.param.forEach(item => {
+      md += `| ${item.param} | ${item.type} | ${item.value} \n`;
+    });
+    md += '\n';
+  }
+  if (note.returns) {
+    md += '**返回值** \n\n';
+    md += `| 类型 | 说明
+| ---- | ---- | \n`;
+    note.returns.forEach(item => {
+      md += `| ${item.type} | ${item.value} \n`;
+    });
+    md += '\n';
+  }
+  return md;
+}
+
+/**
+ * 创建组件md字符串
+ * @param {Object} notes
+ * @returns {String}
+ */
+function createComponentMd(notes, name) {
+  let md = `# ${name} \n\n`;
+  if (notes.main) {
+    md += createComponentNote(getNote(notes.main));
+  }
+
+  if (notes.props) {
+    md += '<vtmd-head2 content="props"/> \n\n';
+    notes.props.forEach(item => {
+      md += `<vtmd-props
+  name="${item.name}" \n`;
+      // md += `<vtmd-head3 content="${item.name}"/> \n\n`;
+      if (item.type) {
+        md += `  type="${item.type}" \n`;
+      }
+      if (item.required) {
+        md += `  required="${item.required}" \n`;
+      }
+      md += '/> \n\n';
+      if (item.value) {
+        md += `${createComponentNote(getNote(item.value))} \n\n`;
+      }
+    });
+  }
+  return md;
+}
+
+/**
+ * 创建注释字符串
+ * @param {Object} note
+ * @returns {String}
+ */
+function createComponentNote(note) {
+  let md = '';
+  if (note.intro) {
+    md += `::: tip ${note.intro.cn}
+${note.intro.value}
+:::
+`;
+  }
+  md += '<vtmd-notes \n';
+  if (note.version) {
+    md += ` version="${note.version.value}"\n`;
+    md += ` versionCn="${note.version.cn}"\n`;
+  }
+  if (note.author) {
+    md += ` author="${note.author.value}"\n`;
+    md += ` authorCn="${note.author.cn}"\n`;
+  }
+  if (note.url) {
+    md += ` url="${note.url.value}"\n`;
+    md += ` urlCn="${note.url.cn}"\n`;
+  }
+  if (note.image) {
+    md += ` image="${note.image.value}"\n`;
+    md += ` imageCn="${note.image.cn}"\n`;
+  }
+  if (note.txt) {
+    md += ` txt="${note.txt.value}"\n`;
+  }
+  md += '/> \n\n';
   if (note.param) {
     md += '**参数** \n\n';
     md += `| 参数 | 类型 | 说明
