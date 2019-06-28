@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = function createVueComponent() {
   const componentPath = path.join(__dirname, '../docs/.vuepress/components');
-  const targetPath = path.join(process.cwd(), 'docs/.vuepress/components1');
+  const targetPath = path.join(process.cwd(), 'docs/.vuepress/components');
 
   // 判断是否存在目标文件夹
   const exists = fs.existsSync(targetPath);
