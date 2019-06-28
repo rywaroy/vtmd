@@ -7,15 +7,21 @@ const fileDisplay = require('./src/file-display');
 const vueTemplateCompiler = require('./src/vue-template-compiler');
 const astParse = require('./src/ast-parse');
 const create = require('./src/create-md');
+const createVueComponent = require('./src/create-vue-component');
 
 const processPath = process.cwd();
 
 program
   .version('0.0.1')
-  .option('--config <path>', 'config');
+  .option('--config <path>', 'config')
+  .option('--component', 'component');
 
 
 program.parse(process.argv);
+
+if (program.component) {
+  createVueComponent();
+}
 
 let configPath;
 const optionsDefault = {
