@@ -39,15 +39,15 @@ npx vtmd --component --config vtmd.config.js
 
 配置了`compontent: true`可以使用vue组件来自定义样式。使用`--component`, vtmd会在`docs/.vuepress/components`文件夹下生成vue组件：
 
-* VtmdHead2.vue - 改写 h2 组件
+* `VtmdHead2.vue` - 改写 h2 组件
 
-* VtmdHead3.vue - 改写 h3 组件
+* `VtmdHead3.vue` - 改写 h3 组件
 
-* VtmdMethodName.vue - methods、computed、filters、watch 方法名组件
+* `VtmdMethodName.vue` - methods、computed、filters、watch 方法名组件
 
-* VtmdNotes.vue - 注释组件
+* `VtmdNotes.vue` - 注释组件
 
-* VtmdProps.vue - props data 的属性名组件
+* `VtmdProps.vue` - props data 的属性名组件
 
 
 改写以上组件就可以自定义样式。请确保配合使用[vuepress](https://vuepress.vuejs.org/zh/guide/)，否则vue组件将无法正常展示。
