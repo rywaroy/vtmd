@@ -31,13 +31,8 @@ module.exports = function astParse(script) {
             notes.data = getData(item.body.body[0].argument.properties);
           }
 
-          // 获取vue组件的methods
-          if (item.key.name === 'methods') {
-            notes.methods = getMethods(item.value.properties);
-          }
-
-          // 获取vue组件的computed、filters、watch
-          if (item.key.name === 'computed' || item.key.name === 'filters' || item.key.name === 'watch') {
+          // 获取vue组件的methods、computed、filters、watch
+          if (item.key.name === 'methods' || item.key.name === 'computed' || item.key.name === 'filters' || item.key.name === 'watch') {
             notes[item.key.name] = getMethods(item.value.properties);
           }
         });
@@ -301,12 +296,23 @@ function getData(props) {
 function getMethods(props) {
   const arr = [];
   props.forEach(item => {
-    const obj = {};
-    obj.name = item.key.name;
-    if (item.leadingComments) {
-      obj.value = filterComment(item.leadingComments);
+    if (item.key) {
+      const obj = {};
+      obj.name = item.key.name;
+      if (item.leadingComments) {
+        obj.value = filterComment(item.leadingComments);
+      }
+      arr.push(obj);
+    } else if (item.argument && item.argument.type === 'CallExpression') {
+      item.argument.arguments[0].properties.forEach(prop => {
+        const objProp = {};
+        objProp.name = prop.key.name;
+        if (prop.leadingComments) {
+          objProp.value = filterComment(prop.leadingComments);
+        }
+        arr.push(objProp);
+      });
     }
-    arr.push(obj);
   });
   return arr;
 }
