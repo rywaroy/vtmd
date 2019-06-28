@@ -1,5 +1,5 @@
 module.exports = {
   entry: 'compontents',
-  compontent: false,
+  compontent: true,
   output: 'docs',
 };
