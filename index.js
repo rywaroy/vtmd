@@ -19,10 +19,6 @@ program
 
 program.parse(process.argv);
 
-if (program.component) {
-  createVueComponent();
-}
-
 let configPath;
 const optionsDefault = {
   entry: 'src',
@@ -30,6 +26,11 @@ const optionsDefault = {
   ignore: null,
   output: 'docs',
 };
+
+if (program.component) {
+  optionsDefault.compontent = true;
+  createVueComponent();
+}
 
 if (program.config) {
   configPath = resolve(program.config);

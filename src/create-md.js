@@ -245,7 +245,7 @@ function createComponentMethod(name, notes) {
   notes.forEach(item => {
     // md += `### ${item.name}`;
     md += `<vtmd-method-name
-name="${item.name}" \n`;
+  name="${item.name}" \n`;
     if (item.value) {
       const note = getNote(item.value);
       const { param, returns } = note;

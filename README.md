@@ -37,7 +37,7 @@ npx vtmd --component --config vtmd.config.js
 | ignore | string、array | null | 需要忽略的文件夹 |
 | output | string | doc | 生成的目标文件夹 |
 
-配置了`compontent: true`可以使用vue组件来自定义样式。使用`--component`, vtmd会在`docs/.vuepress/components`文件夹下生成vue组件：
+配置了`compontent: true`可以使用vue组件来自定义样式。使用`--component`,默认的配置参数`compontent`会变成`true`，同时vtmd会在`docs/.vuepress/components`文件夹下生成vue组件：
 
 * `VtmdHead2.vue` - 改写 h2 组件
 
