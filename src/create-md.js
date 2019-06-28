@@ -13,7 +13,7 @@ module.exports = function create(notes, filename, options) {
 
   fs.writeFile(`${path.join(process.cwd(), options.output, `${name}.md`)}`, md, (err) => {
     if (err) throw err;
-    console.log(`${filename}写入成功`);
+    console.log(`${filename}转换成功`);
   });
 };
 
