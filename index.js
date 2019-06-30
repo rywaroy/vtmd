@@ -12,7 +12,7 @@ const createVueComponent = require('./src/create-vue-component');
 const processPath = process.cwd();
 
 program
-  .version('0.0.1')
+  .version('1.1.1')
   .option('--config <path>', 'config')
   .option('--component', 'component');
 
@@ -63,7 +63,8 @@ vueFiles.forEach((file) => {
 
   // 解析ast，获取注释
   const notes = astParse(cs);
-  // console.log(notes);
+
+  // 创建md文件
   create(notes, file.filename, options);
 });
 

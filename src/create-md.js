@@ -243,7 +243,6 @@ function createComponentMd(notes, name) {
 function createComponentMethod(name, notes) {
   let md = `<vtmd-head2 content="${name}"/> \n\n`;
   notes.forEach(item => {
-    // md += `### ${item.name}`;
     md += `<vtmd-method-name
   name="${item.name}" \n`;
     if (item.value) {
