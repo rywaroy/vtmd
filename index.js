@@ -12,7 +12,7 @@ const createVueComponent = require('./src/create-vue-component');
 const processPath = process.cwd();
 
 program
-  .version('1.1.1')
+  .version('1.2')
   .option('--config <path>', 'config')
   .option('--component', 'component');
 
@@ -25,7 +25,12 @@ const optionsDefault = {
   compontent: false,
   ignore: null,
   output: 'docs',
+  target: [],
 };
+
+if (program.args.length > 0) {
+  optionsDefault.target = program.args;
+}
 
 if (program.component) {
   optionsDefault.compontent = true;
@@ -54,8 +59,23 @@ if (typeof options.ignore === 'string') {
   options.ignore = [options.ignore];
 }
 
-// 遍历查找所有vue文件夹
-const vueFiles = fileDisplay(resolve(options.entry), resolve(options.ignore));
+let vueFiles;
+
+if (options.target.length > 0) {
+  const files = [];
+  for (let i = 0; i < options.target.length; i++) {
+    if (path.extname(options.target[i]) !== '.vue') {
+      options.target[i] = `${options.target[i]}.vue`;
+    }
+    files[i] = {};
+    files[i].filedir = resolve(options.target[i]);
+    files[i].filename = path.basename(files[i].filedir);
+  }
+  vueFiles = files;
+} else {
+  // 遍历查找所有vue文件夹
+  vueFiles = fileDisplay(resolve(options.entry), resolve(options.ignore));
+}
 
 vueFiles.forEach((file) => {
   // 解析vue文件
