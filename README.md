@@ -14,7 +14,7 @@ npm i vtmd -D
 
 ```js
 module.exports = {
-  entry: 'compontents',
+  entry: 'components',
   compontent: true,
   output: 'docs',
 };
