@@ -9,5 +9,6 @@ module.exports = {
         'no-plusplus': 0,
         'consistent-return': 0,
         'no-lonely-if': 0,
+        'no-restricted-syntax': 0,
     }
 };

@@ -21,7 +21,7 @@ export default {
     type: String,
     required: String,
   },
-  compontents: {
+  components: {
     VtmdHead3,
   }
 }
