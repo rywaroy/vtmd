@@ -26,6 +26,14 @@ module.exports = {
 npx vtmd --component --config vtmd.config.js
 ```
 
+或者指定文件
+
+```
+npx vtmd components/A components/B.vue
+```
+
+> 文件后缀可不带.vue，会自动检测添加
+
 假如不配置config，会默认查找当前目录下的`vtmd.config.js`文件，没有该文件则会使用默认配置
 
 **配置参数说明**
@@ -36,6 +44,7 @@ npx vtmd --component --config vtmd.config.js
 | compontent | boolean | false | 是否使用vue组件 |
 | ignore | string、array | null | 需要忽略的文件夹 |
 | output | string | doc | 生成的目标文件夹 |
+| target | array | [] | 指定vue文件的路径 |
 
 配置了`compontent: true`可以使用vue组件来自定义样式。使用`--component`,默认的配置参数`compontent`会变成`true`，同时vtmd会在`docs/.vuepress/components`文件夹下生成vue组件：
 
