@@ -1,6 +1,6 @@
 const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
-const rules = require('../rules');
+const rules = require('../common/rules');
 
 module.exports = function astParse(script) {
   const notes = {};

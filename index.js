@@ -7,7 +7,7 @@ const fileDisplay = require('./src/vue/file-display');
 const vueTemplateCompiler = require('./src/vue/vue-template-compiler');
 const astParse = require('./src/vue/ast-parse');
 const create = require('./src/vue/create-md');
-const createVueComponent = require('./src/create-vue-component');
+const createVueComponent = require('./src/common/create-vue-component');
 
 const processPath = process.cwd();
 
