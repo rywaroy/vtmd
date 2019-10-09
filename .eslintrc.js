@@ -10,5 +10,6 @@ module.exports = {
         'consistent-return': 0,
         'no-lonely-if': 0,
         'no-restricted-syntax': 0,
+        'no-console': 0,
     }
 };
