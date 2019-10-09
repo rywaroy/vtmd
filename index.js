@@ -1,15 +1,11 @@
 #!/usr/bin/env node
 
 const program = require('commander');
-const path = require('path');
 const fs = require('fs');
-const fileDisplay = require('./src/vue/file-display');
-const vueTemplateCompiler = require('./src/vue/vue-template-compiler');
-const astParse = require('./src/vue/ast-parse');
-const create = require('./src/vue/create-md');
 const createVueComponent = require('./src/common/create-vue-component');
-
-const processPath = process.cwd();
+const createVueDocument = require('./src/vue');
+const createUmiDocument = require('./src/umi');
+const resolve = require('./src/common/resolve');
 
 program
   .version('2.0')
@@ -71,43 +67,8 @@ if (typeof options.ignore === 'string') {
   options.ignore = [options.ignore];
 }
 
-let vueFiles;
-
-if (options.target.length > 0) {
-  // 配置过目标文件则解析目标文件
-  const files = [];
-  for (let i = 0; i < options.target.length; i++) {
-    if (path.extname(options.target[i]) !== '.vue') {
-      options.target[i] = `${options.target[i]}.vue`;
-    }
-    files[i] = {};
-    files[i].filedir = resolve(options.target[i]);
-    files[i].filename = path.basename(files[i].filedir);
-  }
-  vueFiles = files;
+if (program.umi) {
+  createUmiDocument(options);
 } else {
-  // 遍历查找所有vue文件夹
-  vueFiles = fileDisplay(resolve(options.entry), resolve(options.ignore));
-}
-
-vueFiles.forEach((file) => {
-  // 解析vue文件
-  const cs = vueTemplateCompiler(file.filedir);
-
-  // 解析ast，获取注释
-  const notes = astParse(cs);
-
-  // 创建md文件
-  create(notes, file.filename, options);
-});
-
-
-function resolve(p) {
-  if (!p) {
-    return p;
-  }
-  if (Array.isArray(p)) {
-    return p.map(item => path.join(processPath, item));
-  }
-  return path.join(processPath, p);
+  createVueDocument(options);
 }
