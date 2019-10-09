@@ -12,7 +12,7 @@ const createVueComponent = require('./src/create-vue-component');
 const processPath = process.cwd();
 
 program
-  .version('1.2')
+  .version('2.0')
   .option('--config <path>', 'config')
   .option('--component', 'component');
 
