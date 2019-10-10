@@ -26,7 +26,10 @@ module.exports = function fileDisplay(filePaths, ignorePaths) {
             filesObj.models.push(path.join(filedir, item));
           });
         } else if (filename === 'components') {
-
+          const components = fs.readdirSync(filedir);
+          components.forEach(item => {
+            filesObj.components.push(path.join(filedir, item));
+          });
         } else {
           fileDisplayDeep(filedir); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
         }
