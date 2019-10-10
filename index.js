@@ -8,7 +8,7 @@ const createUmiDocument = require('./src/umi');
 const resolve = require('./src/common/resolve');
 
 program
-  .version('2.0')
+  .version('2.0.0')
   .option('--config <path>', 'config')
   .option('--component', 'component')
   .option('--umi', 'umi');

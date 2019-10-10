@@ -10,5 +10,4 @@ module.exports = function resolve(p) {
     return p.map(item => path.join(processPath, item));
   }
   return path.join(processPath, p);
-}
-;
+};
