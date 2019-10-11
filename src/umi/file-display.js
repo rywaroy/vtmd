@@ -1,12 +1,23 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = function fileDisplay(filePaths, ignorePaths) {
+/**
+ * 遍历文件结构
+ * @param {String} filePaths - 绝对路径
+ * @param {String} ignorePaths - 忽略的路径
+ * @param {String} relativePath - 相对路径
+ * @returns {Array} umifiles - umi文件
+ */
+module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
     const umifiles = [];
+    const stack = relativePath.split('/'); // 路由栈
+    stack.pop();
     function fileDisplayDeep(filePath) {
         if (ignorePaths && ignorePaths.includes(filePath)) {
             return;
         }
+        const fileName = path.basename(filePath); // 获取文件夹名
+        stack.push(fileName);
         const files = fs.readdirSync(filePath);
         const filesObj = {
             index: '',
@@ -49,6 +60,12 @@ module.exports = function fileDisplay(filePaths, ignorePaths) {
         if (filesObj.index) { // 判断是否有页面
             umifiles.push(filesObj);
         }
+        const urlStack = JSON.parse(JSON.stringify(stack)); // 深拷贝路由栈
+        if (urlStack[0] === 'pages') { // 去除第一层pages文件夹（因为没必要）
+            urlStack.shift();
+        }
+        filesObj.url = urlStack.join('/');
+        stack.pop();
     }
     fileDisplayDeep(filePaths);
     return umifiles;
