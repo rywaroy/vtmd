@@ -16,12 +16,31 @@ function indexParse(script) {
     const ast = babelParser.parse(script, {
         sourceType: 'module',
     });
+
     traverse(ast, {
-        FunctionDeclaration(path) { // 函数式组件
-            if (path.node.leadingComments) {
-                index.main = filterComment(path.node.leadingComments);
+        ExportDefaultDeclaration(path) {
+            /**
+             * 导出函数式组件
+             * @example
+             * export default function Component(params) {
+             *
+             * }
+             */
+            if (path.node.declaration.type === 'FunctionDeclaration') {
+                parseFunctionDeclaration(index, path);
             }
         },
     });
-    console.log(index);
+    console.log(index.main);
+}
+
+/**
+ * 解析函数式组件方法
+ * @param {Object} index - 页面文档对象
+ * @param {Object} path - traverse的path对象
+ */
+function parseFunctionDeclaration(index, path) {
+    if (path.node.leadingComments) {
+        index.main = filterComment(path.node.leadingComments);
+    }
 }
