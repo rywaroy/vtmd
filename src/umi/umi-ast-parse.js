@@ -15,8 +15,11 @@ function indexParse(script) {
     const index = {};
     const ast = babelParser.parse(script, {
         sourceType: 'module',
+        plugins: [
+            'classProperties',
+            'jsx',
+        ],
     });
-
     traverse(ast, {
         ExportDefaultDeclaration(path) {
             if (path.node.declaration.type === 'FunctionDeclaration') {
@@ -38,11 +41,11 @@ function indexParse(script) {
                 *
                 * }
                 */
-               parseClassDeclaration(index, path);
+                parseClassDeclaration(index, path);
             }
         },
     });
-    console.log(index.main);
+    // console.log(index.main);
 }
 
 /**
@@ -62,5 +65,12 @@ function parseFunctionDeclaration(index, path) {
  * @param {Object} path - traverse的path对象
  */
 function parseClassDeclaration(index, path) {
+    if (path.node.leadingComments) {
+        index.main = filterComment(path.node.leadingComments);
+    }
 
+    const ClassBody = path.node.declaration.body.body; // 获取class中的内容
+    ClassBody.forEach(item => {
+
+    });
 }
