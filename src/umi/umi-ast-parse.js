@@ -86,7 +86,15 @@ function parseClassDeclaration(index, path) {
 
 /**
  * 解析constructor函数
+ * @param {Array} body - constructor函数内容
  */
 function parseConstructorFunction(body) {
-    console.log(body.length);
+    body.forEach(item => {
+        /**
+         * 判断是赋值表达式,且左边的值是state
+         */
+        if (item.expression.type === 'AssignmentExpression' && item.expression.left.property.name === 'state') {
+            console.log(11);
+        }
+    });
 }
