@@ -71,15 +71,18 @@ function parseClassDeclaration(index, path) {
 
     const ClassBody = path.node.declaration.body.body; // 获取class中的内容
     ClassBody.forEach(item => {
-        /**
-         * 判断是constructor函数
-         * @example
-         * constructor() {
-         *   this.state = {};
-         * }
-         */
-        if (item.key.name === 'constructor') {
-            index.state = parseConstructorFunction(item.body.body);
+        // 判断是函数
+        if (item.type === 'ClassMethod') {
+            /**
+             * 判断是constructor函数
+             * @example
+             * constructor() {
+             *   this.state = {};
+             * }
+            */
+            if (item.key.name === 'constructor') {
+                index.state = parseConstructorFunction(item.body.body);
+            }
         }
     });
 }
