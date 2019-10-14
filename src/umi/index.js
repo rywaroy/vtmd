@@ -15,6 +15,6 @@ module.exports = function createUmiDocument(options) {
     }
     umiFiles.forEach(file => {
         const notes = umiAstParse(file);
-        console.log(notes);
+        // console.log(notes);
     });
 };
