@@ -5,7 +5,7 @@ const filterComment = require('./comment-parse');
  * @param {Array} props
  * @returns {Array}
  */
-module.exports = function getData(props) {
+module.exports = function dataParse(props) {
     const arr = [];
     for (let i = 0; i < props.length; i++) {
         const obj = {

@@ -1,7 +1,8 @@
 const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const filterComment = require('../common/comment-parse');
-const getData = require('../common/data-parse');
+const dataParse = require('../common/data-parse');
+const methodParse = require('../common/method-parse');
 
 module.exports = function astParse(script) {
     const notes = {};
@@ -29,7 +30,7 @@ module.exports = function astParse(script) {
 
                     // 获取vue组件的data
                     if (item.key.name === 'data') {
-                        notes.data = getData(item.body.body[0].argument.properties);
+                        notes.data = dataParse(item.body.body[0].argument.properties);
                     }
 
                     // 获取vue组件的methods、computed、filters、watch
@@ -114,23 +115,7 @@ function getProps(obj) {
 function getMethods(props) {
     const arr = [];
     props.forEach(item => {
-        if (item.key) {
-            const obj = {};
-            obj.name = item.key.name;
-            if (item.leadingComments) {
-                obj.value = filterComment(item.leadingComments);
-            }
-            arr.push(obj);
-        } else if (item.argument && item.argument.type === 'CallExpression') {
-            item.argument.arguments[0].properties.forEach(prop => {
-                const objProp = {};
-                objProp.name = prop.key.name;
-                if (prop.leadingComments) {
-                    objProp.value = filterComment(prop.leadingComments);
-                }
-                arr.push(objProp);
-            });
-        }
+        arr.push(methodParse(item));
     });
     return arr;
 }

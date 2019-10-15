@@ -1,7 +1,7 @@
 
 const traverse = require('@babel/traverse').default;
 const filterComment = require('../common/comment-parse');
-const getData = require('../common/data-parse');
+const dataParse = require('../common/data-parse');
 
 const lifecycle = ['componentDidMount', 'componentWillUnmount', 'render', 'componentWillMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate'];
 
@@ -13,6 +13,7 @@ module.exports = function indexParse(ast) {
     const index = {
         main: [],
         state: [],
+        methods: [],
     };
     traverse(ast, {
         ExportDefaultDeclaration(path) {
@@ -79,7 +80,8 @@ function parseClassDeclaration(index, path) {
             } else { // 普通函数
                 // 判断是否是react的生命周期,如果是则过滤
                 if (lifecycle.indexOf(item.key.name) === -1) {
-                    console.log(item.key.name);
+                    // console.log(item.key.name);
+                    index.methods.push();
                 }
             }
         }
@@ -97,7 +99,7 @@ function parseConstructorFunction(body) {
          * 判断是赋值表达式,且左边的值是state
          */
         if (item.expression.type === 'AssignmentExpression' && item.expression.left.property.name === 'state') {
-            stateArray = getData(item.expression.right.properties);
+            stateArray = dataParse(item.expression.right.properties);
         }
     });
     return stateArray;
