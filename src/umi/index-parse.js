@@ -1,4 +1,4 @@
-const babelParser = require('@babel/parser');
+
 const traverse = require('@babel/traverse').default;
 const filterComment = require('../common/comment-parse');
 const getData = require('../common/data-parse');
@@ -7,19 +7,13 @@ const lifecycle = ['componentDidMount', 'componentWillUnmount', 'render', 'compo
 
 /**
  * 解析 index.jsx? 文件
+ * @param {Object} ast - ast树
  */
-module.exports = function indexParse(script) {
+module.exports = function indexParse(ast) {
     const index = {
         main: [],
         state: [],
     };
-    const ast = babelParser.parse(script, {
-        sourceType: 'module',
-        plugins: [
-            'classProperties',
-            'jsx',
-        ],
-    });
     traverse(ast, {
         ExportDefaultDeclaration(path) {
             if (path.node.declaration.type === 'FunctionDeclaration') {
