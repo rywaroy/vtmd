@@ -2,6 +2,7 @@ const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const fs = require('fs');
 const filterComment = require('../common/comment-parse');
+const getData = require('../common/parse-data');
 
 module.exports = function umiAstParse(file) {
     const notes = {};
@@ -92,12 +93,14 @@ function parseClassDeclaration(index, path) {
  * @param {Array} body - constructor函数内容
  */
 function parseConstructorFunction(body) {
+    let stateArray = [];
     body.forEach(item => {
         /**
          * 判断是赋值表达式,且左边的值是state
          */
         if (item.expression.type === 'AssignmentExpression' && item.expression.left.property.name === 'state') {
-            console.log(11);
+            stateArray = getData(item.expression.right.properties);
         }
     });
+    return stateArray;
 }
