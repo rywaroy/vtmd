@@ -4,6 +4,8 @@ const fs = require('fs');
 const filterComment = require('../common/comment-parse');
 const getData = require('../common/parse-data');
 
+const lifecycle = ['componentDidMount', 'componentWillUnmount', 'render', 'componentWillMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate'];
+
 module.exports = function umiAstParse(file) {
     const notes = {};
     if (file.index) {
@@ -13,7 +15,10 @@ module.exports = function umiAstParse(file) {
 };
 
 function indexParse(script) {
-    const index = {};
+    const index = {
+        main: [],
+        state: [],
+    };
     const ast = babelParser.parse(script, {
         sourceType: 'module',
         plugins: [
@@ -83,6 +88,11 @@ function parseClassDeclaration(index, path) {
             */
             if (item.key.name === 'constructor') {
                 index.state = parseConstructorFunction(item.body.body);
+            } else { // 普通函数
+                // 判断是否是react的生命周期
+                if (lifecycle.indexOf(item.key.name) === -1) {
+                    console.log(item.key.name);
+                }
             }
         }
     });
