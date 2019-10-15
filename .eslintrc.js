@@ -13,6 +13,7 @@ module.exports = {
         'no-console': 0,
         'no-param-reassign': 0,
         'indent': [2, 4], // 使用tab
-        'max-len': 0
+        'max-len': 0,
+        'no-else-return': 0
     }
 };
