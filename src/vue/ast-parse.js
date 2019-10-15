@@ -1,7 +1,7 @@
 const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const filterComment = require('../common/comment-parse');
-const getData = require('../common/parse-data');
+const getData = require('../common/data-parse');
 
 module.exports = function astParse(script) {
     const notes = {};
