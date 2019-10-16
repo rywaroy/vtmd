@@ -96,10 +96,9 @@ function parseClassDeclaration(index, path) {
              * }
              */
             if (item.key.name === 'state') {
-                index.state = parseConstructorFunction(item.value.properties);
+                index.state = dataParse(item.value.properties);
             }
         }
-        console.log(index);
     });
 }
 
