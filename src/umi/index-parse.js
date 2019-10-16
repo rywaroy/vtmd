@@ -85,6 +85,21 @@ function parseClassDeclaration(index, path) {
                 }
             }
         }
+
+        // 判断是属性
+        if (item.type === 'ClassProperty') {
+            /**
+             * 判断是state属性
+             * @example
+             * state = {
+             *   id: 1,
+             * }
+             */
+            if (item.key.name === 'state') {
+                index.state = parseConstructorFunction(item.value.properties);
+            }
+        }
+        console.log(index);
     });
 }
 
