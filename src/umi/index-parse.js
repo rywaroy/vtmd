@@ -15,6 +15,7 @@ module.exports = function indexParse(ast) {
         main: [],
         state: [],
         methods: [],
+        props: [],
     };
     traverse(ast, {
         ExportDefaultDeclaration(path) {
@@ -37,11 +38,26 @@ module.exports = function indexParse(ast) {
                 *
                 * }
                 */
-                parseClassDeclaration(index, path);
+                if (path.node.leadingComments) {
+                    index.main = filterComment(path.node.leadingComments);
+                }
+                const body = path.node.declaration.body.body;
+                parseClassDeclaration(index, body);
+            }
+
+            if (path.node.declaration.type === 'Identifier') {
+                /**
+                 * 导出变量
+                 * @example
+                 * class Component extends react.Component {}
+                 * export default Component;
+                 */
+                const identifier = path.node.declaration.name;
+                traverse(ast, createVisitor(index, identifier));
             }
         },
     });
-    // console.log(index.main);
+    console.log(JSON.stringify(index));
 };
 
 /**
@@ -58,15 +74,10 @@ function parseFunctionDeclaration(index, path) {
 /**
  * 解析类组件方法
  * @param {Object} index - 页面文档对象
- * @param {Object} path - traverse的path对象
+ * @param {Array} body - class内容
  */
-function parseClassDeclaration(index, path) {
-    if (path.node.leadingComments) {
-        index.main = filterComment(path.node.leadingComments);
-    }
-
-    const ClassBody = path.node.declaration.body.body; // 获取class中的内容
-    ClassBody.forEach(item => {
+function parseClassDeclaration(index, body) {
+    body.forEach(item => {
         // 判断是函数
         if (item.type === 'ClassMethod') {
             /**
@@ -109,12 +120,12 @@ function parseClassDeclaration(index, path) {
             }
         }
     });
-    console.log(JSON.stringify(index.methods));
 }
 
 /**
  * 解析constructor函数
  * @param {Array} body - constructor函数内容
+ * @return {Array} - 解析后的注释对象
  */
 function parseConstructorFunction(body) {
     let stateArray = [];
@@ -127,4 +138,23 @@ function parseConstructorFunction(body) {
         }
     });
     return stateArray;
+}
+
+/**
+ * 创建遍历器
+ * @param {Object} index - 页面index对象
+ * @param {String} identifier - 遍历名称
+ * @returns {Object} - visitor对象
+ */
+function createVisitor(index, identifier) {
+    return {
+        FunctionDeclaration(p) {
+            parseFunctionDeclaration(index, p);
+        },
+        ClassDeclaration(p) {
+            if (p.node.id.name === identifier) {
+                parseClassDeclaration(index, p.node.body.body);
+            }
+        },
+    };
 }
