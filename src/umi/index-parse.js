@@ -97,9 +97,19 @@ function parseClassDeclaration(index, path) {
              */
             if (item.key.name === 'state') {
                 index.state = dataParse(item.value.properties);
+            } else if (item.value.type === 'ArrowFunctionExpression') {
+                /**
+                 * 判断是方法
+                 * @example
+                 * queryList = () => {
+                 *
+                 * }
+                 */
+                index.methods.push(methodParse(item));
             }
         }
     });
+    console.log(JSON.stringify(index.methods));
 }
 
 /**
