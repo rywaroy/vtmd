@@ -27,7 +27,7 @@ module.exports = function indexParse(ast) {
                 *
                 * }
                 */
-                parseFunctionDeclaration(index, path);
+                index.main = parseFunctionDeclaration(path);
             }
 
             if (path.node.declaration.type === 'ClassDeclaration') {
@@ -42,7 +42,9 @@ module.exports = function indexParse(ast) {
                     index.main = filterComment(path.node.leadingComments);
                 }
                 const body = path.node.declaration.body.body;
-                parseClassDeclaration(index, body);
+                const obj = parseClassDeclaration(body);
+                index.state = obj.state;
+                index.methods = obj.methods;
             }
 
             if (path.node.declaration.type === 'Identifier') {
@@ -62,21 +64,26 @@ module.exports = function indexParse(ast) {
 
 /**
  * 解析函数式组件方法
- * @param {Object} index - 页面文档对象
  * @param {Object} path - traverse的path对象
+ * @returns {Array} - 注释对象
  */
-function parseFunctionDeclaration(index, path) {
+function parseFunctionDeclaration(path) {
     if (path.node.leadingComments) {
-        index.main = filterComment(path.node.leadingComments);
+        return filterComment(path.node.leadingComments);
     }
+    return [];
 }
 
 /**
  * 解析类组件方法
- * @param {Object} index - 页面文档对象
  * @param {Array} body - class内容
+ * @param {Object} - 页面index对象
  */
-function parseClassDeclaration(index, body) {
+function parseClassDeclaration(body) {
+    const index = {
+        state: [],
+        methods: [],
+    };
     body.forEach(item => {
         // 判断是函数
         if (item.type === 'ClassMethod') {
@@ -120,6 +127,7 @@ function parseClassDeclaration(index, body) {
             }
         }
     });
+    return index;
 }
 
 /**
@@ -149,11 +157,13 @@ function parseConstructorFunction(body) {
 function createVisitor(index, identifier) {
     return {
         FunctionDeclaration(p) {
-            parseFunctionDeclaration(index, p);
+            index.main = parseFunctionDeclaration(p);
         },
         ClassDeclaration(p) {
             if (p.node.id.name === identifier) {
-                parseClassDeclaration(index, p.node.body.body);
+                const obj = parseClassDeclaration(p.node.body.body);
+                index.state = obj.state;
+                index.methods = obj.methods;
             }
         },
     };
