@@ -161,6 +161,7 @@ function createVisitor(index, identifier) {
         },
         ClassDeclaration(p) {
             if (p.node.id.name === identifier) {
+                index.main = filterComment(p.node.leadingComments);
                 const obj = parseClassDeclaration(p.node.body.body);
                 index.state = obj.state;
                 index.methods = obj.methods;
