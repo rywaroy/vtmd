@@ -156,15 +156,43 @@ function parseConstructorFunction(body) {
  */
 function createVisitor(index, identifier) {
     return {
-        FunctionDeclaration(p) {
-            index.main = parseFunctionDeclaration(p);
+        FunctionDeclaration(path) {
+            index.main = parseFunctionDeclaration(path);
         },
-        ClassDeclaration(p) {
-            if (p.node.id.name === identifier) {
-                index.main = filterComment(p.node.leadingComments);
-                const obj = parseClassDeclaration(p.node.body.body);
+        ClassDeclaration(path) {
+            if (path.node.id.name === identifier) {
+                index.main = filterComment(path.node.leadingComments);
+                const obj = parseClassDeclaration(path.node.body.body);
                 index.state = obj.state;
                 index.methods = obj.methods;
+            }
+        },
+    };
+}
+
+/**
+ * 穿件props遍历器
+ * @param {Object} index - 页面index对象
+ * @param {String} identifier - 遍历名称
+ * @returns {Object} - visitor对象
+ */
+function createPropsVisitor(index, identifier) {
+    return {
+        ExpressionStatement(path) {
+            /**
+             * 解析props，遍历陈述语句
+             * @example
+             * Component.defaultProps = {}
+             * Component.propTypes = {};
+             */
+            const left = path.node.expression.left;
+            if (left.type === 'MemberExpression' && left.object.name === identifier) {
+                if (left.property.name === 'defaultProps') {
+
+                }
+                if (left.property.name === 'propTypes') {
+
+                }
             }
         },
     };
