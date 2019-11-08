@@ -55,7 +55,7 @@ module.exports = function indexParse(ast) {
                  * export default Component;
                  */
                 const identifier = path.node.declaration.name;
-                traverse(ast, createVisitor(index, identifier));
+                traverse(ast, createVisitor(index, identifier, ast));
             }
 
             if (path.node.declaration.type === 'CallExpression') {
@@ -79,7 +79,7 @@ module.exports = function indexParse(ast) {
                     if (argument.type === 'CallExpression') {
                         identifier = argument.arguments[0].name;
                     }
-                    traverse(ast, createVisitor(index, identifier));
+                    traverse(ast, createVisitor(index, identifier, ast));
                 }
             }
         },
@@ -177,9 +177,10 @@ function parseConstructorFunction(body) {
  * 创建遍历器
  * @param {Object} index - 页面index对象
  * @param {String} identifier - 遍历名称
+ * @param {Object} ast - ast对象
  * @returns {Object} - visitor对象
  */
-function createVisitor(index, identifier) {
+function createVisitor(index, identifier, ast) {
     return {
         FunctionDeclaration(path) {
             index.main = parseFunctionDeclaration(path);
@@ -191,6 +192,20 @@ function createVisitor(index, identifier) {
                 index.state = obj.state;
                 index.methods = obj.methods;
             }
+        },
+        VariableDeclaration(path) {
+            /**
+             * 使用Form组件的情况
+             * @example
+             * const ComponentForm = Form.create()(Component);
+             * export default ComponentForm
+             */
+            path.node.declarations.forEach(item => {
+                if (item.id.name === identifier) {
+                    const id = item.init.arguments[0].name;
+                    traverse(ast, createVisitor(index, id, ast));
+                }
+            });
         },
     };
 }
