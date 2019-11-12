@@ -226,12 +226,32 @@ function createPropsVisitor(index, identifier) {
              * Component.propTypes = {};
              */
             const left = path.node.expression.left;
+            const right = path.node.expression.right;
             if (left.type === 'MemberExpression' && left.object.name === identifier) {
-                if (left.property.name === 'defaultProps') {
+                // if (left.property.name === 'defaultProps') {
 
-                }
+                // }
+
                 if (left.property.name === 'propTypes') {
-
+                    const types = [];
+                    for (let i = 0; i < right.properties.length; i++) {
+                        const obj = {
+                            name: right.properties[i].key.name,
+                            type: right.properties[i].value.property.name,
+                        };
+                        // 最后一项取trailingComments内容
+                        if (i === right.properties.length - 1) {
+                            if (right.properties[i].trailingComments) {
+                                obj.value = filterComment(right.properties[i].trailingComments);
+                            }
+                        } else { // 不是最后一项取下一项的leadingComments内容
+                            if (right.properties[i + 1].leadingComments) {
+                                obj.value = filterComment(right.properties[i + 1].leadingComments);
+                            }
+                        }
+                        types.push(obj);
+                    }
+                    index.props = types;
                 }
             }
         },
