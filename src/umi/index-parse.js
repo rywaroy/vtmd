@@ -230,9 +230,15 @@ function createPropsVisitor(index, identifier) {
             const left = path.node.expression.left;
             const right = path.node.expression.right;
             if (left.type === 'MemberExpression' && left.object.name === identifier) {
-                // if (left.property.name === 'defaultProps') {
-
-                // }
+                if (left.property.name === 'defaultProps') {
+                    const df = {};
+                    right.properties.forEach(item => {
+                        if (item.value.type === 'StringLiteral' || item.value.type === 'NumericLiteral' || item.value.type === 'BooleanLiteral') { // 存储字符串、数字、布尔类型的默认值
+                            df[item.key.name] = item.value.value;
+                        }
+                    });
+                    index.defaultProps = df;
+                }
 
                 if (left.property.name === 'propTypes') {
                     const types = [];
