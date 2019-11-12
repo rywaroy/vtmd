@@ -45,6 +45,8 @@ module.exports = function indexParse(ast) {
                 const obj = parseClassDeclaration(body);
                 index.state = obj.state;
                 index.methods = obj.methods;
+                const identifier = path.node.declaration.id.name;
+                traverse(ast, createPropsVisitor(index, identifier));
             }
 
             if (path.node.declaration.type === 'Identifier') {
