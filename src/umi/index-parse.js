@@ -193,6 +193,7 @@ function createVisitor(index, identifier, ast) {
                 const obj = parseClassDeclaration(path.node.body.body);
                 index.state = obj.state;
                 index.methods = obj.methods;
+                traverse(ast, createPropsVisitor(index, identifier));
             }
         },
         VariableDeclaration(path) {
