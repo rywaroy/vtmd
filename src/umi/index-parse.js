@@ -214,7 +214,7 @@ function createVisitor(index, identifier, ast) {
 }
 
 /**
- * 穿件props遍历器
+ * 创建props遍历器
  * @param {Object} index - 页面index对象
  * @param {String} identifier - 遍历名称
  * @returns {Object} - visitor对象
