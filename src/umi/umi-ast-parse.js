@@ -2,6 +2,7 @@
 const fs = require('fs');
 const babelParser = require('@babel/parser');
 const indexParse = require('./index-parse');
+const mapParse = require('./map-parse');
 
 
 module.exports = function umiAstParse(file) {
@@ -15,6 +16,12 @@ module.exports = function umiAstParse(file) {
             ],
         });
         notes.index = indexParse(ast);
+    }
+    if (file.map) {
+        const ast = babelParser.parse(fs.readFileSync(file.map, 'utf-8'), {
+            sourceType: 'module',
+        });
+        notes.map = mapParse(ast);
     }
     return notes;
 };
