@@ -96,7 +96,7 @@ module.exports = function indexParse(ast) {
         });
         delete index.defaultProps;
     }
-    console.log(JSON.stringify(index));
+    return index;
 };
 
 /**
