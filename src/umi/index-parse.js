@@ -86,6 +86,16 @@ module.exports = function indexParse(ast) {
             }
         },
     });
+
+    // 合并defaultProps
+    if (index.defaultProps) {
+        index.props.forEach(item => {
+            if (index.defaultProps[item.name]) {
+                item.defaultProps = index.defaultProps[item.name];
+            }
+        });
+        delete index.defaultProps;
+    }
     console.log(JSON.stringify(index));
 };
 
