@@ -199,7 +199,9 @@ function createVisitor(index, identifier, ast) {
         },
         ClassDeclaration(path) {
             if (path.node.id.name === identifier) {
-                index.main = filterComment(path.node.leadingComments);
+                if (path.node.leadingComments) {
+                    index.main = filterComment(path.node.leadingComments);
+                }
                 const obj = parseClassDeclaration(path.node.body.body);
                 index.state = obj.state;
                 index.methods = obj.methods;
@@ -240,7 +242,7 @@ function createPropsVisitor(index, identifier) {
              */
             const left = path.node.expression.left;
             const right = path.node.expression.right;
-            if (left.type === 'MemberExpression' && left.object.name === identifier) {
+            if (left && left.type === 'MemberExpression' && left.object.name === identifier) {
                 if (left.property.name === 'defaultProps') {
                     const df = {};
                     right.properties.forEach(item => {
