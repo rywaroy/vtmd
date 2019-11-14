@@ -8,6 +8,8 @@ module.exports = function methodParse(method) {
     if (method.key) {
         const obj = {};
         obj.name = method.key.name;
+        obj.generator = method.generator;
+        obj.async = method.async;
         if (method.leadingComments) {
             obj.value = filterComment(method.leadingComments);
         }
