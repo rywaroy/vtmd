@@ -63,6 +63,7 @@ module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
             umifiles.push(filesObj);
         }
         const urlStack = JSON.parse(JSON.stringify(stack)); // 深拷贝路由栈
+        filesObj.baseUrl = urlStack.join('/');
         if (urlStack[0] === 'pages') { // 去除第一层pages文件夹（因为没必要）
             urlStack.shift();
         }
