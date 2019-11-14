@@ -1,6 +1,6 @@
 const traverse = require('@babel/traverse').default;
-const filterComment = require('../common/comment-parse');
 const dataParse = require('../common/data-parse');
+const methodParse = require('../common/method-parse');
 
 /**
  * 解析 map.js 文件
@@ -16,6 +16,7 @@ module.exports = function modelParse(ast) {
                 if (item.key.name === 'namespace') {
                     model.namespace = item.value.value;
                 }
+
                 // 获取state
                 if (item.key.name === 'state') {
                     /**
@@ -40,10 +41,17 @@ module.exports = function modelParse(ast) {
                         traverse(ast, createStateVisitor(model, identifier));
                     }
                 }
+
+                // 获取effects
+                if (item.key.name === 'effects') {
+                    model.effects = [];
+                    item.value.properties.forEach(method => {
+                        model.effects.push(methodParse(method));
+                    });
+                }
             });
         },
     });
-    console.log(JSON.stringify(model));
     return model;
 };
 
