@@ -68,6 +68,7 @@ module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
             urlStack.shift();
         }
         filesObj.url = urlStack.join('/');
+        filesObj.urlName = urlStack.join('-');
         stack.pop();
     }
     fileDisplayDeep(filePaths);
