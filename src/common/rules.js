@@ -39,4 +39,9 @@ module.exports = {
         cn: '文本',
         simple: true,
     },
+    '@title': {
+        name: 'title',
+        cn: '标题',
+        simple: true,
+    },
 };
