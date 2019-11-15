@@ -19,6 +19,6 @@ module.exports = function creatProgress(num, total, text) {
         p += '▇'.gray;
     }
     log(`${text}
-${'· vtmd'.green} ${p}  ${num}/${total}
+${'● vtmd'.green} ${p}  ${num}/${total}
 `);
 };
