@@ -1,10 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const getNote = require('../common/get-note');
-const createNote = require('../common/create-note');
 
 module.exports = function create(notes, options) {
-    let name = notes.url.replace(/\//g, '-');
+    let name = notes.urlName;
     if (notes.index.main && getNote(notes.index.main).title) {
         name = getNote(notes.index.main).title.value;
     }
