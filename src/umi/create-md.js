@@ -41,6 +41,7 @@ function createIndex(index) {
         md += createComponentNote(getNote(index.main));
     }
 
+    md += '<div class="vtmd__umi__index">';
     if (index.state) {
         md += createIndexState(index.state);
     }
@@ -53,7 +54,8 @@ function createIndex(index) {
         md += createComponentMethod('methods', index.methods);
     }
 
-    // console.log(JSON.stringify(index));
+    md += '</div>';
+    console.log(index);
     return md;
 }
 

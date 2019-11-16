@@ -43,4 +43,10 @@ export default {
   font-weight: bold;
   display: inline-block;
 }
+
+.vtmd__umi__index {
+  background: #f9f9f9;
+  padding: 10px 40px 20px;
+  border-radius: 8px;
+}
 </style>
