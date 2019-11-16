@@ -9,6 +9,10 @@
       <span class="vtmd-props__title">required：</span>
       {{required}}
     </p>
+    <p class="vtmd-props__p" v-if="defaultProps">
+      <span class="vtmd-props__title">默认值：</span>
+      {{defaultProps}}
+    </p>
   </div>
 </template>
 
@@ -20,6 +24,7 @@ export default {
     name: String,
     type: String,
     required: String,
+    defaultProps: String,
   },
   components: {
     VtmdHead3,
