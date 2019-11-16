@@ -59,5 +59,6 @@ export default {
   background: #eee;
   padding: 5px 10px;
   border-radius: 4px;
+  display: inline-block;
 }
 </style>
