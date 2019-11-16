@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const getNote = require('../common/get-note');
 const createComponentNote = require('../common/create-component-note');
+const createComponentMethod = require('../common/create-component-method');
 
 module.exports = function create(notes, options) {
     let name = notes.urlName;
@@ -47,6 +48,12 @@ function createIndex(index) {
     if (index.props) {
         md += createIndexProps(index.props);
     }
+
+    if (index.methods) {
+        md += createComponentMethod('methods', index.methods);
+    }
+
+    // console.log(JSON.stringify(index));
     return md;
 }
 
@@ -71,8 +78,8 @@ function createIndexState(state) {
 }
 
 /**
- * props md字符串
- * @param {Object} state - index.jsx? state文档对象
+ * 创建props md字符串
+ * @param {Array} props - index.jsx? props文档对象
  */
 function createIndexProps(props) {
     let md = '<vtmd-head2 content="props"/> \n\n';
