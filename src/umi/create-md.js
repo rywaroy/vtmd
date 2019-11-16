@@ -39,5 +39,29 @@ function createIndex(index) {
     if (index.main) {
         md += createComponentNote(getNote(index.main));
     }
+
+    if (index.state) {
+        md += createIndexState(index.state);
+    }
+    return md;
+}
+
+/**
+ * 创建state md字符串
+ * @param {Object} state - index.jsx? state文档对象
+ */
+function createIndexState(state) {
+    let md = '<vtmd-head2 content="state"/> \n\n';
+    state.forEach(item => {
+        md += `<vtmd-props
+  name="${item.name}" \n`;
+        if (item.type) {
+            md += `  type="${item.type}" \n`;
+        }
+        md += '/> \n\n';
+        if (item.value) {
+            md += `${createComponentNote(getNote(item.value))} \n\n`;
+        }
+    });
     return md;
 }
