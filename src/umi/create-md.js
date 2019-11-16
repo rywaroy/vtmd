@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const getNote = require('../common/get-note');
+const createComponentNote = require('../common/create-component-note');
 
 module.exports = function create(notes, options) {
     let name = notes.urlName;
@@ -10,12 +11,33 @@ module.exports = function create(notes, options) {
 
     const md = createMd(notes, name);
 
-    // fs.writeFile(`${path.join(process.cwd(), options.output, `${name}.md`)}`, md, (err) => {
-    //     if (err) throw err;
-    //     console.log(`${filename}转换成功`);
-    // });
+    fs.writeFile(`${path.join(process.cwd(), options.output, `${name}.md`)}`, md, (err) => {
+        if (err) throw err;
+    });
 };
 
+/**
+ * 创建md字符串
+ * @param {Object} notes - 文档对象
+ * @param {String} name - 文件名
+ */
 function createMd(notes, name) {
+    let md = `# ${name} \n\n`;
 
+    if (notes.index) {
+        md += createIndex(notes.index);
+    }
+    return md;
+}
+
+/**
+ * 创建index.jsx?md字符串
+ * @param {Object} index - index.jsx?文档对象
+ */
+function createIndex(index) {
+    let md = '';
+    if (index.main) {
+        md += createComponentNote(getNote(index.main));
+    }
+    return md;
 }
