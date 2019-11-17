@@ -34,10 +34,13 @@ module.exports = function umiAstParse(file) {
     if (file.models.length > 0) {
         notes.models = [];
         file.models.forEach(item => {
-            const ast = babelParser.parse(fs.readFileSync(item, 'utf-8'), {
+            const ast = babelParser.parse(fs.readFileSync(item.url, 'utf-8'), {
                 sourceType: 'module',
             });
-            notes.models.push(modelParse(ast));
+            notes.models.push({
+                ast: modelParse(ast),
+                filename: item.filename,
+            });
         });
     }
 
@@ -45,15 +48,22 @@ module.exports = function umiAstParse(file) {
     if (file.components.length > 0) {
         notes.components = [];
         file.components.forEach(item => {
-            const ast = babelParser.parse(fs.readFileSync(item, 'utf-8'), {
+            const ast = babelParser.parse(fs.readFileSync(item.url, 'utf-8'), {
                 sourceType: 'module',
                 plugins: [
                     'classProperties',
                     'jsx',
                 ],
             });
-            notes.components.push(indexParse(ast));
+            notes.components.push({
+                ast: indexParse(ast),
+                filename: item.filename,
+            });
         });
     }
+    notes.url = file.url;
+    notes.baseUrl = file.baseUrl;
+    notes.filename = file.filename;
+    notes.mapFilename = file.mapFilename;
     return notes;
 };
