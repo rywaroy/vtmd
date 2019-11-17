@@ -26,7 +26,7 @@ function createMd(notes, name) {
     let md = `# ${name} \n\n`;
 
     if (notes.index) {
-        md += createIndex(notes.index);
+        md += createIndex(notes.index, notes.filename);
     }
     return md;
 }
@@ -35,13 +35,15 @@ function createMd(notes, name) {
  * 创建index.jsx?md字符串
  * @param {Object} index - index.jsx?文档对象
  */
-function createIndex(index) {
+function createIndex(index, filename) {
     let md = '';
     if (index.main) {
         md += createComponentNote(getNote(index.main));
     }
 
-    md += '<div class="vtmd__umi__index">';
+    // md += '<div class="vtmd__umi__index"> \n';
+    // md += `<div class="vtmd__umi__filename">${filename}</div> \n`;
+    md += `<VtmdFileBox filename="${filename}">`;
     if (index.state) {
         md += createIndexState(index.state);
     }
@@ -53,9 +55,9 @@ function createIndex(index) {
     if (index.methods) {
         md += createComponentMethod('methods', index.methods);
     }
-
-    md += '</div>';
-    console.log(index);
+    md += '</VtmdFileBox>';
+    // md += '</div>';
+    // console.log(index);
     return md;
 }
 
