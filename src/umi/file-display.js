@@ -34,13 +34,19 @@ module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
                 if (filename === 'models') { // 判断是models文件夹，遍历该文件夹
                     const models = fs.readdirSync(filedir);
                     models.forEach(item => {
-                        filesObj.models.push(path.join(filedir, item));
+                        filesObj.models.push({
+                            url: path.join(filedir, item),
+                            filename: item,
+                        });
                     });
                 } else if (filename === 'components') { // 判断是components文件夹，遍历该文件夹
                     const components = fs.readdirSync(filedir);
                     components.forEach(item => {
                         if (/.*\.jsx?/.test(item)) {
-                            filesObj.components.push(path.join(filedir, item));
+                            filesObj.components.push({
+                                url: path.join(filedir, item),
+                                filename: item,
+                            });
                         }
                     });
                 } else {
@@ -50,18 +56,20 @@ module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
             if (isFile) { // 判断是文件
                 if (/index\.jsx?/.test(filename)) { // 判断是index.js 或是 index.jsx
                     filesObj.index = filedir;
+                    filesObj.filename = filename;
                 }
                 if (/model\.js/.test(filename)) { // 判断是model.js
-                    filesObj.models.push(filedir);
+                    filesObj.models.push({
+                        url: filedir,
+                        filename: 'model.js',
+                    });
                 }
                 if (/map\.js/.test(filename)) { // 判断是map.js
                     filesObj.map = filedir;
+                    filesObj.mapFilename = 'map.js';
                 }
             }
         });
-        if (filesObj.index) { // 判断是否有页面
-            umifiles.push(filesObj);
-        }
         const urlStack = JSON.parse(JSON.stringify(stack)); // 深拷贝路由栈
         filesObj.baseUrl = urlStack.join('/');
         if (urlStack[0] === 'pages') { // 去除第一层pages文件夹（因为没必要）
@@ -69,6 +77,9 @@ module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
         }
         filesObj.url = urlStack.join('/');
         filesObj.urlName = urlStack.join('-');
+        if (filesObj.index) { // 判断是否有页面
+            umifiles.push(filesObj);
+        }
         stack.pop();
     }
     fileDisplayDeep(filePaths);
