@@ -30,6 +30,8 @@ export default {
   padding: 10px 40px 20px;
   border-radius: 8px;
   position: relative;
+  min-height: 200px;
+  margin-bottom: 20px;
 }
 
 .vtmd__umi__index.hide {
