@@ -6,8 +6,5 @@ module.exports = {
   port: 8090,
   themeConfig: {
     // 所有页面全部开启自动生成侧边栏
-    sidebar: [
-      '/Example',
-    ],
   },
 }
