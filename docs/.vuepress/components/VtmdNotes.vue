@@ -38,6 +38,8 @@ export default {
 .vtmd-notes__p {
   color: #888;
   margin: 10px 0;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .vtmd-notes__title {
@@ -53,8 +55,8 @@ export default {
 }
 
 .vtmd-notes__txt {
-  font-size: 16px;
-  line-height: 28px;
+  font-size: 14px;
+  line-height: 24px;
   color: #666;
   background: #eee;
   padding: 5px 10px;

@@ -14,8 +14,8 @@ export default {
 
 <style>
 .vtmd-h3 {
-  font-size: 24px;
-  line-height: 36px;
+  font-size: 18px;
+  line-height: 28px;
   color: #444;
   cursor: pointer;
 }

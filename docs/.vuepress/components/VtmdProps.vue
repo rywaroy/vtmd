@@ -36,6 +36,8 @@ export default {
 .vtmd-props__p {
   color: #666;
   margin: 10px 0;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .vtmd-props__title {
