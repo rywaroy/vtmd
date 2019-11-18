@@ -6,7 +6,7 @@
 module.exports = function createComponentNote(note) {
     let md = '';
     if (note.intro) {
-        md += `::: tip ${note.intro.cn}
+        md += `::: tip
 ${note.intro.value}
 :::
 `;
