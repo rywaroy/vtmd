@@ -10,6 +10,7 @@ const createComponentNote = require('./create-component-note');
 module.exports = function createComponentMethod(name, notes) {
     let md = `<vtmd-head2 content="${name}"/> \n\n`;
     notes.forEach(item => {
+        md += '<vtmd-block> \n';
         md += `<vtmd-method-name
   name="${item.name}" \n`;
         if (item.value) {
@@ -26,6 +27,7 @@ module.exports = function createComponentMethod(name, notes) {
         } else {
             md += '/> \n\n';
         }
+        md += '</vtmd-block>\n\n';
     });
     return md;
 };
