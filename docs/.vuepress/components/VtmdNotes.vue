@@ -33,6 +33,7 @@ export default {
 .vtmd-notes {
   font-size: 16px;
   line-height: 32px;
+  margin: 10px 0;
 }
 
 .vtmd-notes__p {
@@ -62,5 +63,6 @@ export default {
   padding: 5px 10px;
   border-radius: 4px;
   display: inline-block;
+  margin: 0;
 }
 </style>

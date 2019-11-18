@@ -27,6 +27,7 @@ export default {
   line-height: 30px;
   color: #444;
   cursor: pointer;
+  margin: 0;
 }
 
 .vtmd-method__name {

@@ -18,6 +18,7 @@ export default {
   line-height: 28px;
   cursor: pointer;
   color: #3eaf7c;
+  margin: 0;
 }
 
 .vtmd-h3:hover {
