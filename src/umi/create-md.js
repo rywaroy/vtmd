@@ -126,7 +126,7 @@ function createModels(models) {
 
         // 添加namespace
         if (item.ast.namespace) {
-            md += `<vtmd-head2 content="${item.ast.namespace}"/> \n\n`;
+            md += `<vtmd-head2 content="${item.ast.namespace}" border="0"/> \n\n`;
         }
 
         // 添加state
