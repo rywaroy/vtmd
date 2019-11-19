@@ -32,12 +32,17 @@ function createMd(notes, name) {
     if (notes.models) {
         md += createModels(notes.models);
     }
+
+    if (notes.map) {
+        md += createMap(notes.map, notes.mapFilename);
+    }
     return md;
 }
 
 /**
  * 创建index.jsx?md字符串
  * @param {Object} index - index.jsx?文档对象
+ * @param {String} filename - 文件名
  * @returns {String} md字符串
  */
 function createIndex(index, filename) {
@@ -46,7 +51,7 @@ function createIndex(index, filename) {
         md += createComponentNote(getNote(index.main));
     }
 
-    md += `<VtmdFileBox filename="${filename}">`;
+    md += `<vtmd-file-box filename="${filename}">`;
     if (index.state) {
         md += createIndexState(index.state);
     }
@@ -58,7 +63,7 @@ function createIndex(index, filename) {
     if (index.methods) {
         md += createComponentMethod('methods', index.methods);
     }
-    md += '</VtmdFileBox>\n\n';
+    md += '</vtmd-file-box>\n\n';
 
     return md;
 }
@@ -117,7 +122,7 @@ function createIndexProps(props) {
 function createModels(models) {
     let md = '';
     models.forEach(item => {
-        md += `<VtmdFileBox filename="${item.filename === 'model.js' ? item.filename : `models/${item.filename}`}">`;
+        md += `<vtmd-file-box filename="${item.filename === 'model.js' ? item.filename : `models/${item.filename}`}">`;
 
         // 添加namespace
         if (item.ast.namespace) {
@@ -133,7 +138,20 @@ function createModels(models) {
         if (item.ast.effects) {
             md += createComponentMethod('effects', item.ast.effects);
         }
-        md += '</VtmdFileBox>\n\n';
+        md += '</vtmd-file-box>\n\n';
     });
+    return md;
+}
+
+/**
+ * 创建map.js md字符串
+ * @param {Array} map - map.js文档对象
+ * @param {String} filename - 文件名
+ * @returns {String} md字符串
+ */
+function createMap(map, filename) {
+    let md = `<vtmd-file-box filename="${filename}"> \n`;
+    md += createComponentMethod('map', map);
+    md += '</vtmd-file-box>\n\n';
     return md;
 }
