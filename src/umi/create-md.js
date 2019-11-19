@@ -28,12 +28,14 @@ function createMd(notes, name) {
     if (notes.index) {
         md += createIndex(notes.index, notes.filename);
     }
+
     return md;
 }
 
 /**
  * 创建index.jsx?md字符串
  * @param {Object} index - index.jsx?文档对象
+ * @returns {String} md字符串
  */
 function createIndex(index, filename) {
     let md = '';
@@ -41,8 +43,6 @@ function createIndex(index, filename) {
         md += createComponentNote(getNote(index.main));
     }
 
-    // md += '<div class="vtmd__umi__index"> \n';
-    // md += `<div class="vtmd__umi__filename">${filename}</div> \n`;
     md += `<VtmdFileBox filename="${filename}">`;
     if (index.state) {
         md += createIndexState(index.state);
@@ -55,28 +55,27 @@ function createIndex(index, filename) {
     if (index.methods) {
         md += createComponentMethod('methods', index.methods);
     }
-    md += '</VtmdFileBox>';
-    // md += '</div>';
-    // console.log(index);
+    md += '</VtmdFileBox>\n\n';
+
     return md;
 }
 
 /**
  * 创建state md字符串
  * @param {Object} state - index.jsx? state文档对象
+ * @returns {String} md字符串
  */
 function createIndexState(state) {
     let md = '<vtmd-head2 content="state"/> \n\n';
     state.forEach(item => {
+        md += '<vtmd-block> \n';
         md += `<vtmd-props
   name="${item.name}" \n`;
-        if (item.type) {
-            md += `  type="${item.type}" \n`;
-        }
         md += '/> \n\n';
         if (item.value) {
-            md += `${createComponentNote(getNote(item.value))} \n\n`;
+            md += `${createComponentNote(getNote(item.value))} \n`;
         }
+        md += '</vtmd-block>\n\n';
     });
     return md;
 }
@@ -84,10 +83,12 @@ function createIndexState(state) {
 /**
  * 创建props md字符串
  * @param {Array} props - index.jsx? props文档对象
+ * @returns {String} md字符串
  */
 function createIndexProps(props) {
     let md = '<vtmd-head2 content="props"/> \n\n';
     props.forEach(item => {
+        md += '<vtmd-block> \n';
         md += `<vtmd-props
   name="${item.name}" \n`;
         if (item.type) {
@@ -100,6 +101,7 @@ function createIndexProps(props) {
         if (item.value) {
             md += `${createComponentNote(getNote(item.value))} \n\n`;
         }
+        md += '</vtmd-block>\n\n';
     });
     return md;
 }
