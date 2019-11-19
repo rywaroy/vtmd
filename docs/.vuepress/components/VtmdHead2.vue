@@ -1,11 +1,15 @@
 <template>
-  <h2 :id="content" class="vtmd-h2"><a :href="`#${content}`" aria-hidden="true" class="header-anchor">#</a> {{content}}</h2>
+  <h2 :id="content" :class="['vtmd-h2', {'border': border === '1'}]"><a :href="`#${content}`" aria-hidden="true" class="header-anchor">#</a> {{content}}</h2>
 </template>
 
 <script>
 export default {
   props: {
     content: String,
+    border: {
+      type: String,
+      default: '1'
+    }
   }
 }
 </script>
@@ -16,8 +20,12 @@ export default {
   line-height: 1.5;
   cursor: pointer;
   color: #000;
-  border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
+  border-bottom: 0;
+}
+
+.vtmd-h2.border {
+  border-bottom: 1px solid #ddd;
 }
 
 .vtmd-h2:hover {
