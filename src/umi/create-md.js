@@ -29,6 +29,9 @@ function createMd(notes, name) {
         md += createIndex(notes.index, notes.filename);
     }
 
+    if (notes.models) {
+        md += createModels(notes.models);
+    }
     return md;
 }
 
@@ -102,6 +105,25 @@ function createIndexProps(props) {
             md += `${createComponentNote(getNote(item.value))} \n\n`;
         }
         md += '</vtmd-block>\n\n';
+    });
+    return md;
+}
+
+/**
+ * 创建models md字符串
+ * @param {Object} 创建models - model.js models文档列表
+ * @returns {String} md字符串
+ */
+function createModels(models) {
+    let md = '';
+    models.forEach(item => {
+        md += `<VtmdFileBox filename="${item.filename === 'model.js' ? item.filename : `models/${item.filename}`}">`;
+
+        // 添加namespace
+        if (item.ast.namespace) {
+            md += `<vtmd-head2 content="${item.ast.namespace}"/> \n\n`;
+        }
+        md += '</VtmdFileBox>\n\n';
     });
     return md;
 }
