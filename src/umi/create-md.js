@@ -129,6 +129,10 @@ function createModels(models) {
             md += createIndexState(item.ast.state);
         }
 
+        // 添加effects
+        if (item.ast.effects) {
+            md += createComponentMethod('effects', item.ast.effects);
+        }
         md += '</VtmdFileBox>\n\n';
     });
     return md;
