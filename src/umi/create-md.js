@@ -123,6 +123,12 @@ function createModels(models) {
         if (item.ast.namespace) {
             md += `<vtmd-head2 content="${item.ast.namespace}"/> \n\n`;
         }
+
+        // 添加state
+        if (item.ast.state) {
+            md += createIndexState(item.ast.state);
+        }
+
         md += '</VtmdFileBox>\n\n';
     });
     return md;
