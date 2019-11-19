@@ -11,6 +11,6 @@ export default {
 
 <style>
 .vtmd__block {
-    margin-bottom: 30px;
+    margin-bottom: 36px;
 }
 </style>

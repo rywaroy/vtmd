@@ -16,7 +16,8 @@ export default {
   line-height: 1.5;
   cursor: pointer;
   color: #000;
-  border-bottom: 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
 }
 
 .vtmd-h2:hover {
