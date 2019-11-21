@@ -6,9 +6,10 @@ const createVueComponent = require('./src/common/create-vue-component');
 const createVueDocument = require('./src/vue');
 const createUmiDocument = require('./src/umi');
 const resolve = require('./src/common/resolve');
+const version = require('./package.json').version;
 
 program
-    .version('2.0.0')
+    .version(version)
     .option('--config <path>', 'config')
     .option('--component', 'component')
     .option('--umi', 'umi');
