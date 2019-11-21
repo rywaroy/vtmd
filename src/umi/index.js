@@ -2,6 +2,7 @@ const resolve = require('../common/resolve');
 const fileDisplay = require('./file-display');
 const umiAstParse = require('./umi-ast-parse');
 const creatProgress = require('../common/create-progress');
+const create = require('./create-md');
 
 module.exports = function createUmiDocument(options) {
     let umiFiles = [];
@@ -19,8 +20,8 @@ module.exports = function createUmiDocument(options) {
     umiFiles.forEach(file => {
         creatProgress(num, total, `正在解析${file.baseUrl}`);
         const notes = umiAstParse(file);
+        create(notes, options);
         num++;
-        // console.log(notes);
     });
     creatProgress(num, total, '解析完成!');
 };
