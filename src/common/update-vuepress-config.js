@@ -22,7 +22,7 @@ module.exports = function updateVuepressConfig() {
             if (path.node.key.name === 'sidebar') {
                 const elements = [];
                 mdFiles.forEach(file => {
-                    elements.push(t.stringLiteral(file));
+                    elements.push(t.stringLiteral(file === ('index.md' || '首页.md') ? '/' : file));
                 });
                 path.node.value.elements = elements;
             }
