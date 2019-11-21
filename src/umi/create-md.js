@@ -49,7 +49,7 @@ function createMd(notes, name) {
  */
 function createIndex(index, filename) {
     let md = '';
-    if (index.main) {
+    if (index.main && index.main.length > 0) {
         md += createComponentNote(getNote(index.main));
     }
 
@@ -164,7 +164,9 @@ function createMap(map, filename) {
  * @returns {String} md字符串
  */
 function createComponents(components) {
-    const md = '';
-    components.forEach(item => createIndex(item.ast, `components/${item.filename}`));
+    let md = '';
+    components.forEach(item => {
+        md += createIndex(item.ast, `components/${item.filename}`);
+    });
     return md;
 }
