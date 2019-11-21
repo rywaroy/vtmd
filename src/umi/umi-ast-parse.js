@@ -62,6 +62,7 @@ module.exports = function umiAstParse(file) {
         });
     }
     notes.url = file.url;
+    notes.urlName = file.urlName;
     notes.baseUrl = file.baseUrl;
     notes.filename = file.filename;
     notes.mapFilename = file.mapFilename;
