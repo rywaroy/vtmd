@@ -7,7 +7,14 @@ const createComponentMethod = require('../common/create-component-method');
 module.exports = function create(notes, options) {
     let name = notes.urlName;
     if (notes.index.main && getNote(notes.index.main).title) {
+        // 如果有title则使用title
         name = getNote(notes.index.main).title.value;
+
+        // 删除原来使用的urlName文件
+        const url = `${path.join(process.cwd(), options.output, `${notes.urlName}.md`)}`;
+        if (fs.existsSync(url)) {
+            fs.unlinkSync(url);
+        }
     }
 
     const md = createMd(notes, name);
