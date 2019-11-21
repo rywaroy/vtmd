@@ -29,8 +29,10 @@
     "webpack-dev-middleware": "^3.7.0"
   },
   "dependencies": {
+    "@babel/generator": "^7.7.2",
     "@babel/parser": "^7.4.5",
     "@babel/traverse": "^7.4.5",
+    "babel-types": "^6.26.0",
     "colors": "^1.4.0",
     "commander": "^2.20.0",
     "single-line-log": "^1.1.2",
