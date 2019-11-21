@@ -12,9 +12,7 @@ module.exports = function create(notes, options) {
 
     const md = createMd(notes, name);
 
-    fs.writeFile(`${path.join(process.cwd(), options.output, `${name}.md`)}`, md, (err) => {
-        if (err) throw err;
-    });
+    fs.writeFileSync(`${path.join(process.cwd(), options.output, `${name}.md`)}`, md);
 };
 
 /**
@@ -36,6 +34,10 @@ function createMd(notes, name) {
     if (notes.map) {
         md += createMap(notes.map, notes.mapFilename);
     }
+
+    if (notes.components) {
+        md += createComponents(notes.components);
+    }
     return md;
 }
 
@@ -52,15 +54,15 @@ function createIndex(index, filename) {
     }
 
     md += `<vtmd-file-box filename="${filename}">`;
-    if (index.state) {
+    if (index.state && index.state.length > 0) {
         md += createIndexState(index.state);
     }
 
-    if (index.props) {
+    if (index.props && index.props.length > 0) {
         md += createIndexProps(index.props);
     }
 
-    if (index.methods) {
+    if (index.methods && index.methods.length > 0) {
         md += createComponentMethod('methods', index.methods);
     }
     md += '</vtmd-file-box>\n\n';
@@ -116,7 +118,7 @@ function createIndexProps(props) {
 
 /**
  * 创建models md字符串
- * @param {Object} 创建models - model.js models文档列表
+ * @param {Array} 创建models - model.js models文档列表
  * @returns {String} md字符串
  */
 function createModels(models) {
@@ -153,5 +155,16 @@ function createMap(map, filename) {
     let md = `<vtmd-file-box filename="${filename}"> \n`;
     md += createComponentMethod('map', map);
     md += '</vtmd-file-box>\n\n';
+    return md;
+}
+
+/**
+ * 创建components md字符串
+ * @param {Array} components -  components文档列表
+ * @returns {String} md字符串
+ */
+function createComponents(components) {
+    const md = '';
+    components.forEach(item => createIndex(item.ast, `components/${item.filename}`));
     return md;
 }
