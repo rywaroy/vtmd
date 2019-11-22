@@ -14,10 +14,11 @@ export default {
 
 <style>
 .vtmd-h3 {
-  font-size: 24px;
-  line-height: 36px;
-  color: #444;
+  font-size: 18px;
+  line-height: 28px;
   cursor: pointer;
+  color: #3eaf7c;
+  margin: 0;
 }
 
 .vtmd-h3:hover {
