@@ -3,6 +3,7 @@ const fileDisplay = require('./file-display');
 const umiAstParse = require('./umi-ast-parse');
 const creatProgress = require('../common/create-progress');
 const create = require('./create-md');
+const updateVuepressConfig = require('../common/update-vuepress-config');
 
 module.exports = function createUmiDocument(options) {
     let umiFiles = [];
@@ -24,4 +25,7 @@ module.exports = function createUmiDocument(options) {
         num++;
     });
     creatProgress(num, total, '解析完成!');
+
+    // 更新vuepress 配置
+    updateVuepressConfig();
 };
