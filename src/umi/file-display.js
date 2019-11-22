@@ -42,7 +42,7 @@ module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
                 } else if (filename === 'components') { // 判断是components文件夹，遍历该文件夹
                     const components = fs.readdirSync(filedir);
                     components.forEach(item => {
-                        if (/.*\.jsx?/.test(item)) {
+                        if (/^.*\.jsx?$/.test(item)) {
                             filesObj.components.push({
                                 url: path.join(filedir, item),
                                 filename: item,
@@ -56,17 +56,17 @@ module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
                 }
             }
             if (isFile) { // 判断是文件
-                if (/index\.jsx?/.test(filename)) { // 判断是index.js 或是 index.jsx
+                if (/^index\.jsx?$/.test(filename)) { // 判断是index.js 或是 index.jsx
                     filesObj.index = filedir;
                     filesObj.filename = filename;
                 }
-                if (/model\.js/.test(filename)) { // 判断是model.js
+                if (/^model\.js$/.test(filename)) { // 判断是model.js
                     filesObj.models.push({
                         url: filedir,
                         filename: 'model.js',
                     });
                 }
-                if (/map\.js/.test(filename)) { // 判断是map.js
+                if (/^map\.js$/.test(filename)) { // 判断是map.js
                     filesObj.map = filedir;
                     filesObj.mapFilename = 'map.js';
                 }
