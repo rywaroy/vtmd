@@ -1,0 +1,239 @@
+.HomeWrapper {
+    height: 100%;
+    border: none !important;
+
+    //卡片模块
+    .cardWrapper {
+        display: flex;
+        align-content: space-between;
+        justify-content: space-between;
+
+        :global {
+            .card {
+                background: white;
+                width: 24%;
+                font-size: 14px;
+                overflow: hidden;
+                h3 {
+                    padding: 16px 16px 0 16px;
+                    color: #1E283C;
+                    line-height: 14px;
+                    position: relative;
+
+                    .iconfont {
+                        position: absolute;
+                        right: 16px;
+                        color: #B9BEC3;
+                        font-size: 12px;
+                    }
+                }
+
+                &>.number {
+                    padding: 16px;
+                    font-size: 24px;
+                    color: #1E283C;
+                    line-height: 24px;
+                    display: inline-block;
+                    font-weight: bold;
+                    height: 56px;
+                }
+
+                .charts {
+                    padding: 0 16px;
+                    height: 60px;
+                    line-height: 60px;
+                }
+
+                .tip {
+                    border-top: 1px solid #E4E7EF;
+                    color: #6E7382;
+                    padding: 10px 16px;
+
+                    .number {
+                        color: #1E283C;
+                        font-size: 14px;
+                    }
+                }
+
+                .iconWrapper {
+                    .iconfont {
+                        font-size: 12px;
+                        margin-left: 8px;
+                    }
+
+                    .icon-increase {
+                        color: #67AE19;
+                    }
+
+                    .icon-decline {
+                        color: #FE3824;
+                        ;
+                    }
+
+                    .icon-chiping {
+                        color: #6E7382;
+                    }
+                }
+
+                .cardBoxNumber {
+                    display: flex;
+                    align-items: center;
+                    padding: 20px 16px;
+                    .number {
+                        margin-right: 10px;
+                        font-size: 24px;
+                        color: #1E283C;
+                        line-height: 24px;
+                        display: inline-block;
+                        font-weight: bold;
+                    }
+                }
+
+                .cardBox .line {
+                    margin: 0 16px;
+                    height: 1px;
+                    background: #E4E7EF;
+                }
+            }
+        }
+    }
+
+    //趋势排行榜
+    .tabWrapper {
+        background: white;
+        margin-top: 12px;
+        position: relative;
+
+        :global {
+            .formWrapper {
+                position: absolute;
+                right: 12px;
+                top: 5px;
+                z-index: 1;
+            }
+
+            .tabChilrenWrapper {
+                padding: 5px 16px;
+
+                h3 {
+                    font-size: 16px;
+                    color: #1E283C;
+                    font-weight: bold;
+                }
+
+                .chartsWrapperSubtitle {
+                    font-size: 16px;
+                    color: #276AD6;
+                    margin-left: 10px;
+                    cursor: pointer;
+                    i {
+                        font-size: 16px;
+                    }
+                }
+
+                .chartsWrapper {
+                    flex: 1;
+                    width: 700px;
+
+                    .unit {
+                        display: inline-block;
+                        padding-left: 10px;
+                        padding-top: 30px;
+                        font-size: 12px;
+                        color: #9BA0AA;
+                    }
+                }
+
+                .rankingWrapper {
+                    width: 360px;
+                    margin-left: 50px;
+                    .rankingLine {
+                        font-size: 14px;
+                        color: #1E283C;
+                        display: flex;
+                        margin-top: 17px;
+                        line-height: 18px;
+                        .icon {
+                            display: inline-block;
+                            height: 18px;
+                            width: 18px;
+                            border-radius: 100%;
+                            font-size: 12px;
+                            text-align: center;
+                            margin-right: 8px;
+                        }
+                        .blurIcon {
+                            .icon;
+                            color: #FFFFFF;
+                            background: #51A1FD;
+                        }
+                        .grayIcon {
+                            .icon;
+                            color: #1E283C;
+                            background: #E8E9EB;
+                        }
+
+                        .number {
+                            text-align: right;
+                            flex: 1;
+                        }
+                    }
+                    .rankingTitle {
+                        display: block;
+                        width: 220px;
+                        color: #1E283C;
+                    }
+                }
+            }
+        }
+    }
+
+    //走马灯模块
+    .carouselWrapper {
+        background: white;
+        margin-top: 12px;
+        position: relative;
+        padding: 24px 0;
+
+        :global {
+            .contentWrapper {
+                margin: 0 50px;
+            }
+
+            .iconfont {
+                position: absolute;
+                color: #CCCCCC;
+            }
+
+            .prevArrow {
+                left: 16px;
+            }
+
+            .nextArrow {
+                right: 16px;
+            }
+
+            .flex {
+                &>div {
+                    width: 33%;
+
+                    h3 {
+                        text-align: center;
+                        font-size: 14px;
+                        color: #1E283C;
+                        line-height: 14px;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .carouselItem {
+        width: 50%;
+        float: left;
+    }
+    .carouselTitle {
+        text-align: center;
+    }
+}
