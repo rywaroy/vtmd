@@ -47,6 +47,8 @@ module.exports = function fileDisplay(filePaths, ignorePaths, relativePath) {
                                 url: path.join(filedir, item),
                                 filename: item,
                             });
+                        } else if (fs.statSync(path.join(filedir, item)).isDirectory()) {
+                            fileDisplayDeep(filedir);
                         }
                     });
                 } else {

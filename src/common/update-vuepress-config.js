@@ -7,12 +7,11 @@ const resolve = require('./resolve');
 
 /**
  * 更新vuepress config配置
- * @param {Array} mdFiles - 所有的md文件
  */
 module.exports = function updateVuepressConfig() {
     // 生成md文件后，遍历所有md文件，自动配置.vuepress/config.js
     const files = fs.readdirSync(resolve('./docs'));
-    const mdFiles = files.filter(file => /.*\.md?/.test(file));
+    const mdFiles = files.filter(file => /.*\.md/.test(file));
 
     const ast = babelParser.parse(fs.readFileSync(resolve('./docs/.vuepress/config.js'), 'utf-8'), {
         sourceType: 'module',
