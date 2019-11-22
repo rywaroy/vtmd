@@ -10,5 +10,10 @@ module.exports = {
         'consistent-return': 0,
         'no-lonely-if': 0,
         'no-restricted-syntax': 0,
+        'no-console': 0,
+        'no-param-reassign': 0,
+        'indent': [2, 4], // 使用tab
+        'max-len': 0,
+        'no-else-return': 0
     }
 };

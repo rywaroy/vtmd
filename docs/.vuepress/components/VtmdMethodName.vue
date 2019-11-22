@@ -23,10 +23,11 @@ export default {
 
 <style>
 .vtmd-method {
-  font-size: 24px;
-  line-height: 36px;
+  font-size: 18px;
+  line-height: 30px;
   color: #444;
   cursor: pointer;
+  margin: 0;
 }
 
 .vtmd-method__name {
